@@ -23,7 +23,7 @@ config :hexcall, HexcallWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "y9O3lJtghMXMH8BXdLubYuVhkxEbT4LZ6tslg4WAGJNmNzf+cZRa5g/7ykDuHaCX",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:hexcall, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:hexcall, ~w(--watch)]}
