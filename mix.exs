@@ -57,7 +57,15 @@ defmodule Hexcall.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.2"}
+      {:bandit, "~> 1.2"},
+
+      # Membrane Plugins
+      {:membrane_core, "~> 1.1"},
+      {:membrane_file_plugin, "~> 0.17"},
+      {:membrane_realtimer_plugin, "~> 0.9"},
+      {:membrane_matroska_plugin, "~> 0.6"},
+      {:membrane_opus_plugin, "~> 0.20"}
+
     ]
   end
 
