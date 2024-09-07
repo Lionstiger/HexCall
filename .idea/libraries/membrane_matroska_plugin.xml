@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="membrane_matroska_plugin" type="mix">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/_build/test/lib/membrane_matroska_plugin/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/test/lib/membrane_matroska_plugin/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/membrane_matroska_plugin/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/test/lib/membrane_matroska_plugin/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/membrane_matroska_plugin/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/test/lib/membrane_matroska_plugin/ebin" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/deps/membrane_matroska_plugin/lib" />
+      <root url="file://$PROJECT_DIR$/deps/membrane_matroska_plugin/lib" />
+      <root url="file://$PROJECT_DIR$/deps/membrane_matroska_plugin/lib" />
+    </SOURCES>
+  </library>
+</component>

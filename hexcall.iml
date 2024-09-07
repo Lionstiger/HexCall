@@ -87,6 +87,60 @@
       <excludeFolder url="file://$MODULE_DIR$/deps" />
       <excludeFolder url="file://$MODULE_DIR$/doc" />
       <excludeFolder url="file://$MODULE_DIR$/logs" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/bimap" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/bunch" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/bunch_native" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/bundlex" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/coerce" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/elixir_uuid" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/logger_backends" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/membrane_common_c" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/membrane_core" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/membrane_file_plugin" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/membrane_h264_format" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/membrane_matroska_format" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/membrane_matroska_plugin" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/membrane_opus_format" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/membrane_opus_plugin" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/membrane_precompiled_dependency_provider" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/membrane_raw_audio_format" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/membrane_realtimer_plugin" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/membrane_vp8_format" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/membrane_vp9_format" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/numbers" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/qex" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/ratio" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/req" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/shmex" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/unifex" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/zarex" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/bimap" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/bunch" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/bunch_native" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/bundlex" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/coerce" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/elixir_uuid" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/logger_backends" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/membrane_common_c" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/membrane_core" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/membrane_file_plugin" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/membrane_h264_format" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/membrane_matroska_format" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/membrane_matroska_plugin" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/membrane_opus_format" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/membrane_opus_plugin" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/membrane_precompiled_dependency_provider" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/membrane_raw_audio_format" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/membrane_realtimer_plugin" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/membrane_vp8_format" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/membrane_vp9_format" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/numbers" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/qex" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/ratio" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/req" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/shmex" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/unifex" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/zarex" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="phoenix" level="project" />
@@ -170,5 +224,44 @@
     <orderEntry type="library" name="mix_test_watch" level="project" />
     <orderEntry type="library" name="mox" level="project" />
     <orderEntry type="library" name="hpack" level="project" />
+    <orderEntry type="library" name="membrane_file_plugin" level="project" />
+    <orderEntry type="library" name="membrane_realtimer_plugin" level="project" />
+    <orderEntry type="library" name="membrane_matroska_plugin" level="project" />
+    <orderEntry type="library" name="membrane_opus_plugin" level="project" />
+    <orderEntry type="library" name="membrane_core" level="project" />
+    <orderEntry type="library" name="qex" level="project" />
+    <orderEntry type="library" name="bunch" level="project" />
+    <orderEntry type="library" name="ratio" level="project" />
+    <orderEntry type="library" name="junit_formatter" level="project" />
+    <orderEntry type="library" name="logger_backends" level="project" />
+    <orderEntry type="library" name="membrane_matroska_format" level="project" />
+    <orderEntry type="library" name="membrane_h264_format" level="project" />
+    <orderEntry type="library" name="membrane_vp8_format" level="project" />
+    <orderEntry type="library" name="membrane_vp9_format" level="project" />
+    <orderEntry type="library" name="membrane_opus_format" level="project" />
+    <orderEntry type="library" name="membrane_common_c" level="project" />
+    <orderEntry type="library" name="bimap" level="project" />
+    <orderEntry type="library" name="membrane_flv_plugin" level="project" />
+    <orderEntry type="library" name="membrane_ivf_plugin" level="project" />
+    <orderEntry type="library" name="membrane_ogg_plugin" level="project" />
+    <orderEntry type="library" name="membrane_h264_plugin" level="project" />
+    <orderEntry type="library" name="membrane_ffmpeg_swresample_plugin" level="project" />
+    <orderEntry type="library" name="membrane_raw_audio_format" level="project" />
+    <orderEntry type="library" name="unifex" level="project" />
+    <orderEntry type="library" name="bundlex" level="project" />
+    <orderEntry type="library" name="membrane_precompiled_dependency_provider" level="project" />
+    <orderEntry type="library" name="membrane_raw_audio_parser_plugin" level="project" />
+    <orderEntry type="library" name="nimble_csv" level="project" />
+    <orderEntry type="library" name="brotli" level="project" />
+    <orderEntry type="library" name="ezstd" level="project" />
+    <orderEntry type="library" name="aws_signature" level="project" />
+    <orderEntry type="library" name="numbers" level="project" />
+    <orderEntry type="library" name="shmex" level="project" />
+    <orderEntry type="library" name="elixir_uuid" level="project" />
+    <orderEntry type="library" name="zarex" level="project" />
+    <orderEntry type="library" name="coerce" level="project" />
+    <orderEntry type="library" name="inch_ex" level="project" />
+    <orderEntry type="library" name="bunch_native" level="project" />
+    <orderEntry type="library" name="benchfella" level="project" />
   </component>
 </module>

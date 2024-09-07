@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="membrane_common_c" type="mix">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/_build/test/lib/membrane_common_c/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/test/lib/membrane_common_c/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/membrane_common_c/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/test/lib/membrane_common_c/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/membrane_common_c/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/test/lib/membrane_common_c/ebin" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/deps/membrane_common_c/lib" />
+      <root url="file://$PROJECT_DIR$/deps/membrane_common_c/c_src" />
+      <root url="file://$PROJECT_DIR$/deps/membrane_common_c/lib" />
+      <root url="file://$PROJECT_DIR$/deps/membrane_common_c/c_src" />
+      <root url="file://$PROJECT_DIR$/deps/membrane_common_c/lib" />
+      <root url="file://$PROJECT_DIR$/deps/membrane_common_c/c_src" />
+    </SOURCES>
+  </library>
+</component>
