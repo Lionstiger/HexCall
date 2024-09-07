@@ -17,7 +17,7 @@ defmodule HexcallWeb.CoreComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import HexcallWeb.Gettext
+  use Gettext, backend: HexcallWeb.Gettext
 
   @doc """
   Renders a modal.
