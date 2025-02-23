@@ -61,6 +61,7 @@ defmodule Hexcall.MixProject do
 
       # Membrane Plugins
       {:membrane_core, "~> 1.1"},
+      {:membrane_webrtc_plugin, "~> 0.24.0"},
       {:membrane_file_plugin, "~> 0.17"},
       {:membrane_realtimer_plugin, "~> 0.9"},
       {:membrane_matroska_plugin, "~> 0.6"},
