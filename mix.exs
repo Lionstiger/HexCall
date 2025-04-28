@@ -32,15 +32,20 @@ defmodule Hexcall.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      # phoenix
       {:phoenix, "~> 1.7.12"},
       {:phoenix_ecto, "~> 4.4"},
+      {:phoenix_live_view, "~> 1.0.0"},
+      {:phoenix_html, "~> 4.0"},
+      {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+
+      # ecto
       {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 4.0"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.20.2"},
+
+      # js
       {:floki, ">= 0.30.0", only: :test},
-      {:phoenix_live_dashboard, "~> 0.8.3"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:heroicons,
@@ -50,6 +55,7 @@ defmodule Hexcall.MixProject do
        app: false,
        compile: false,
        depth: 1},
+
       {:swoosh, "~> 1.5"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 1.0"},
@@ -61,7 +67,7 @@ defmodule Hexcall.MixProject do
 
       # Membrane Plugins
       {:membrane_core, "~> 1.1"},
-      {:membrane_webrtc_plugin, "~> 0.24.0"},
+      {:membrane_webrtc_plugin, "~> 0.25.3"},
       {:membrane_file_plugin, "~> 0.17"},
       {:membrane_realtimer_plugin, "~> 0.9"},
       {:membrane_matroska_plugin, "~> 0.6"},
