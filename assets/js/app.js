@@ -24,9 +24,17 @@ import topbar from "../vendor/topbar"
 import AudioConnection from "./hooks/audio_connection"
 import HexPosition from "./hooks/position_update"
 
+import { createCaptureHook, createPlayerHook } from "membrane_webrtc_plugin";
+let Hooks = {};
+const iceServers = [{ urls: "stun:stun.l.google.com:19302" }];
+Hooks.Capture = createCaptureHook(iceServers);
+Hooks.Player = createPlayerHook(iceServers);
+Hooks.HexPosition = HexPosition;
+// {AudioConnection, HexPosition}
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
-  hooks: {AudioConnection, HexPosition},
+  hooks: Hooks,
   longPollFallbackMs: 2500,
   params: {_csrf_token: csrfToken}
 })
