@@ -66,7 +66,22 @@ config :hexcall, HexcallWeb.Endpoint,
 config :hexcall, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
-config :logger, :console, format: "[$level] $message\n"
+# config :logger, :console, format: "[$level] $message\n"
+config :logger,
+  :console,
+  format: "$time $metadata[$level] $message\n",
+  # metadata: [:request_id, :module, :application]
+  metadata: [:request_id],
+  level: :debug
+
+Logger.put_module_level(ExICE.Priv.ICEAgent, :info)
+Logger.put_module_level(ExICE.Priv.ConnCheckHandler.Controlling, :info)
+Logger.put_module_level(ExICE.Priv.ConnCheckHandler.Controlled, :info)
+Logger.put_module_level(Membrane.WebRTC.Live.Player, :info)
+Logger.put_module_level(Membrane.WebRTC.Live.Capture, :info)
+# Logger.put_application_level(:membrane_core, :info)
+# Logger.put_application_level(:ex_ice, :info)
+
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
