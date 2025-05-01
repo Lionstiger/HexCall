@@ -39,6 +39,7 @@ defmodule Hexcall.MixProject do
       {:phoenix_html, "~> 4.0"},
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:live_debugger, "~> 0.1.7", only: :dev},
 
       # ecto
       {:ecto_sql, "~> 3.10"},
