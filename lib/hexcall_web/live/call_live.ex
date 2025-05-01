@@ -29,7 +29,8 @@ defmodule HexcallWeb.CallLive do
           id: "mediaCapture",
           signaling: ingress_signaling,
           video?: false,
-          audio?: true
+          audio?: true,
+          preview?: false
         )
         |> Player.attach(
           id: "audioPlayer",
@@ -41,7 +42,13 @@ defmodule HexcallWeb.CallLive do
 
     {:ok, socket}
 
+    end
+
+  @impl true
+  def handle_event("webrtc_signaling", data, _socket) do
+    IO.inspect(data)
   end
+
 
   # TODO: setup pipeline to parse uploaded audio
 
