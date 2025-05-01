@@ -26,7 +26,8 @@ import HexPosition from "./hooks/position_update"
 
 import { createCaptureHook, createPlayerHook } from "membrane_webrtc_plugin";
 let Hooks = {};
-const iceServers = [{ urls: "stun:stun.l.google.com:19302" }];
+// const iceServers = [{ urls: "stun:stun.l.google.com:19302" }];
+const iceServers = []; //Use this for local Peering
 Hooks.Capture = createCaptureHook(iceServers);
 Hooks.Player = createPlayerHook(iceServers);
 Hooks.HexPosition = HexPosition;
@@ -35,7 +36,7 @@ Hooks.HexPosition = HexPosition;
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
   hooks: Hooks,
-  longPollFallbackMs: 2500,
+  // longPollFallbackMs: 99999,
   params: {_csrf_token: csrfToken}
 })
 
