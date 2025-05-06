@@ -38,3 +38,5 @@ hexcall-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Continue Stuff
+.continue/
