@@ -67,6 +67,27 @@ defmodule HexcallWeb.CallLive do
     <Capture.live_render socket={@socket} capture_id="mediaCapture" />
     <h3>Stream sent by the server</h3>
     <Player.live_render socket={@socket} player_id="audioPlayer" />
-    """
+
+    <div x-data="{ muted: false,
+                  muteUnmute() {
+                    this.muted = !this.muted;
+                    mediaCapture.srcObject.getAudioTracks().forEach(track => {
+                      track.enabled = !this.muted;
+                    });
+                    console.log('Muted: ', this.muted);
+                  }
+                }">
+      <button
+        id="muteButton"
+        @click="muteUnmute()"
+        x-text="muted ? 'Unmute' : 'Mute'"
+        x-bind:class="{
+          'bg-green-500 hover:bg-green-700': muted,
+          'bg-red-500 hover:bg-red-700': !muted
+        }"
+        class="text-white font-bold py-2 px-4">
+      </button>
+    </div>
+   """
   end
 end
