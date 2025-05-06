@@ -26,6 +26,12 @@ import HexPosition from "./hooks/position_update"
 
 import { createCaptureHook, createPlayerHook } from "membrane_webrtc_plugin";
 let Hooks = {};
+
+// Import and enable Alpine here
+import Alpine from "alpinejs"
+Alpine.start()
+window.Alpine = Alpine;
+
 // const iceServers = [{ urls: "stun:stun.l.google.com:19302" }];
 const iceServers = []; //Use this for local Peering
 Hooks.Capture = createCaptureHook(iceServers);
@@ -37,7 +43,14 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 let liveSocket = new LiveSocket("/live", Socket, {
   hooks: Hooks,
   // longPollFallbackMs: 99999,
-  params: {_csrf_token: csrfToken}
+  params: {_csrf_token: csrfToken},
+  dom: {
+    onBeforeElUpdated(from, to) {
+        if (from._x_dataStack) {
+            window.Alpine.clone(from, to);
+        }
+    }
+  }
 })
 
 // Show progress bar on live navigation and form submits
