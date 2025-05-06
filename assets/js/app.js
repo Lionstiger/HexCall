@@ -21,7 +21,7 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
-import AudioConnection from "./hooks/audio_connection"
+// import VoiceControl from "./hooks/audio_connection"
 import HexPosition from "./hooks/position_update"
 
 import { createCaptureHook, createPlayerHook } from "membrane_webrtc_plugin";
@@ -37,7 +37,7 @@ const iceServers = []; //Use this for local Peering
 Hooks.Capture = createCaptureHook(iceServers);
 Hooks.Player = createPlayerHook(iceServers);
 Hooks.HexPosition = HexPosition;
-// {AudioConnection, HexPosition}
+// Hooks.VoiceControl= VoiceControl;
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {

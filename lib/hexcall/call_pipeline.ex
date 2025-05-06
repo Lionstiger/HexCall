@@ -19,7 +19,4 @@ defmodule Hexcall.CallPipeline do
       })
     {[spec: spec], %{}}
   end
-
 end
-      # |> via_in(:input, options: [kind: :audio])
-      # |> via_out(:output, options: [kind: :audio])
