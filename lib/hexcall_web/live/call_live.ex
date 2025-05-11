@@ -21,7 +21,9 @@ defmodule HexcallWeb.CallLive do
 
         Membrane.Pipeline.start_link(Hexcall.CallPipeline,
           ingress_signaling: ingress_signaling,
-          egress_signaling: egress_signaling
+          egress_signaling: egress_signaling,
+          # receiver: :breadsticks
+          receiver: self()
         )
 
         socket

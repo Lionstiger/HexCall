@@ -56,7 +56,6 @@ defmodule Hexcall.MixProject do
        app: false,
        compile: false,
        depth: 1},
-
       {:swoosh, "~> 1.5"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 1.0"},
@@ -72,8 +71,9 @@ defmodule Hexcall.MixProject do
       {:membrane_file_plugin, "~> 0.17"},
       {:membrane_realtimer_plugin, "~> 0.9"},
       {:membrane_matroska_plugin, "~> 0.6"},
-      {:membrane_opus_plugin, "~> 0.20"}
-
+      {:membrane_opus_plugin, "~> 0.20"},
+      {:membrane_tee_plugin, "~> 0.12.0"},
+      {:membrane_funnel_plugin, "~> 0.9.2"}
     ]
   end
 
