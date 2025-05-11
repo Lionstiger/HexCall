@@ -68,11 +68,11 @@ config :hexcall, dev_routes: true
 # Do not include metadata nor timestamps in development logs
 # config :logger, :console, format: "[$level] $message\n"
 config :logger,
-  :console,
-  format: "$time $metadata[$level] $message\n",
-  # metadata: [:request_id, :module, :application]
-  metadata: [:request_id],
-  level: :debug
+       :console,
+       format: "$time $metadata[$level] $message\n",
+       # metadata: [:request_id, :module, :application]
+       metadata: [:request_id],
+       level: :debug
 
 Logger.put_module_level(ExICE.Priv.ICEAgent, :info)
 Logger.put_module_level(ExICE.Priv.ConnCheckHandler.Controlling, :info)
