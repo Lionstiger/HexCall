@@ -4,7 +4,6 @@ defmodule HexcallWeb.CallLive do
 
   alias Membrane.WebRTC.Live.{Capture, Player}
 
-
   @impl true
   def mount(_params, _session, socket) do
     # if connected?(socket) do
@@ -43,14 +42,12 @@ defmodule HexcallWeb.CallLive do
       end
 
     {:ok, socket}
-
-    end
+  end
 
   # @impl true
   # def handle_event("webrtc_signaling", data, _socket) do
   #   IO.inspect(data)
   # end
-
 
   # TODO: setup pipeline to parse uploaded audio
 
@@ -61,7 +58,6 @@ defmodule HexcallWeb.CallLive do
 
   # TODO: Send Position updates to RoomManager
 
-
   @impl true
   def render(assigns) do
     ~H"""
@@ -71,25 +67,26 @@ defmodule HexcallWeb.CallLive do
     <Player.live_render socket={@socket} player_id="audioPlayer" />
 
     <div x-data="{ muted: false,
-                  muteUnmute() {
-                    this.muted = !this.muted;
-                    mediaCapture.srcObject.getAudioTracks().forEach(track => {
-                      track.enabled = !this.muted;
-                    });
-                    console.log('Muted: ', this.muted);
-                  }
-                }">
+                   muteUnmute() {
+                     this.muted = !this.muted;
+                     mediaCapture.srcObject.getAudioTracks().forEach(track => {
+                       track.enabled = !this.muted;
+                     });
+                     console.log('Muted: ', this.muted);
+                   }
+                 }">
       <button
         id="muteButton"
         @click="muteUnmute()"
         x-text="muted ? 'Unmute' : 'Mute'"
         x-bind:class="{
-          'bg-green-500 hover:bg-green-700': muted,
-          'bg-red-500 hover:bg-red-700': !muted
-        }"
-        class="text-white font-bold py-2 px-4">
+           'bg-green-500 hover:bg-green-700': muted,
+           'bg-red-500 hover:bg-red-700': !muted
+         }"
+        class="text-white font-bold py-2 px-4"
+      >
       </button>
     </div>
-   """
+    """
   end
 end

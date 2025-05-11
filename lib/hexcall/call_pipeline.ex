@@ -43,9 +43,8 @@ defmodule Hexcall.CallPipeline do
       # get_child(:split)
       # |> via_in(:input, options: [kind: :audio])
       # |> get_child(:webrtc_sink),
-
-
     ]
+
     {[spec: spec], %{}}
   end
 end
