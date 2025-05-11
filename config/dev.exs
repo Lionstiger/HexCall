@@ -82,7 +82,6 @@ Logger.put_module_level(Membrane.WebRTC.Live.Capture, :info)
 # Logger.put_application_level(:membrane_core, :info)
 # Logger.put_application_level(:ex_ice, :info)
 
-
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
