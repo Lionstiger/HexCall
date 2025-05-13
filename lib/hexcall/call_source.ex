@@ -1,4 +1,5 @@
 defmodule Hexcall.CallSource do
+  alias Membrane.Opus
   use Membrane.Source
 
   require Membrane.Logger
@@ -25,12 +26,14 @@ defmodule Hexcall.CallSource do
   def handle_playing(_ctx, state) do
     {actions, state} = send_buffers(state)
 
-    {[stream_format: {:output, %Membrane.RemoteStream{content_format: nil, type: :bytestream}}] ++
+    {[stream_format: {:output, %Membrane.RemoteStream{content_format: Opus, type: :packetized}}] ++
        actions, state}
+
+    # {[stream_format: {:output, %Membrane.RemoteStream{type: :bytestream}}] ++ actions, state}
   end
 
   @impl true
-  def handle_info({:message, message}, ctx, state) do
+  def handle_info({:message, _source, message}, ctx, state) do
     state = %{state | buffered: state.buffered ++ [message]}
 
     if ctx.playback == :playing do
@@ -49,10 +52,9 @@ defmodule Hexcall.CallSource do
   defp send_buffers(state) do
     actions =
       Enum.map(state.buffered, fn message ->
-        {:buffer, {:output, %Membrane.Buffer{payload: message}}}
+        {:buffer, {:output, message}}
       end)
 
-    # IO.puts("receiving buffer")
     {actions, %{state | buffered: []}}
   end
 end

@@ -1,6 +1,7 @@
 defmodule Hexcall.CallPipeline do
+  alias Membrane.RawAudio
   use Membrane.Pipeline
-  alias Membrane.{Tee, Funnel}
+  alias Membrane.{Tee, Funnel, PortAudio}
   # use Membrane.ChildrenSpec
   alias Hexcall.CallSource
   alias Hexcall.CallSink
@@ -9,50 +10,51 @@ defmodule Hexcall.CallPipeline do
   def handle_init(_ctx, opts) do
     spec = [
       #
-      # Define Elements
+      # Collecting Mic Input
       #
-      child(:webrtc_source, %Membrane.WebRTC.Source{signaling: opts[:ingress_signaling]}),
-      child(:webrtc_sink, %Membrane.WebRTC.Sink{
+      child(:webrtc_source, %Membrane.WebRTC.Source{signaling: opts[:ingress_signaling]})
+      |> via_out(:output, options: [kind: :audio])
+      |> child(:call_sink, %CallSink{receiver: Keyword.get(opts, :receiver, self())}),
+      #
+      # Receiving Audio to output
+      #
+      child(:call_source, %CallSource{register_name: Keyword.get(opts, :receiver, self())})
+      |> child(:parse, %Membrane.Opus.Parser{
+        delimitation: :keep,
+        generate_best_effort_timestamps?: true
+      })
+      |> via_in(:input, options: [kind: :audio])
+      |> child(:webrtc_sink, %Membrane.WebRTC.Sink{
         tracks: [:audio],
         signaling: opts[:egress_signaling]
-      }),
-      child(:opus_decoder, Membrane.Opus.Decoder),
-      child(:opus_encoder, Membrane.Opus.Encoder),
-      # child(:opus_decoder_2, Membrane.Opus.Decoder),
-      # child(:opus_encoder_2, Membrane.Opus.Encoder),
-      # child(:split, Tee.Parallel),
-      # child(:funnel, Funnel),
-      # child(:call_source, %CallSource{register_name: Keyword.get(opts, :receiver, self())}),
-      # child(:call_sink, %CallSink{receiver: Keyword.get(opts, :receiver, self())}),
-      #
-      # Connect Elements
-      #
-      get_child(:webrtc_source)
-      |> via_out(:output, options: [kind: :audio])
-      |> get_child(:opus_decoder)
-      |> get_child(:opus_encoder)
-      |> via_in(:input, options: [kind: :audio])
-      |> get_child(:webrtc_sink)
-      # |> child(%Membrane.File.Sink{location: "/tmp/example.exs"})
-      # |> get_child(:call_sink),
-      # |> get_child(:split),
-      # get_child(:split)
-
-      # get_child(:split)
-      # |> get_child(:webrtc_sink)
-      # get_child(:split)
-      # |> get_child(:opus_decoder_2)
-      # |> get_child(:opus_encoder_2)
-      # |> via_in(:input, options: [kind: :audio])
-      # |> get_child(:webrtc_sink)
-
-      # get_child(:call_source)
-      # |> get_child(:opus_decoder_2)
-      # |> get_child(:opus_encoder_2)
-      # |> via_in(:input, options: [kind: :audio])
-      # |> get_child(:webrtc_sink)
+      })
     ]
 
     {[spec: spec], %{}}
   end
 end
+
+# Safety local:
+# child(:webrtc_source, %Membrane.WebRTC.Source{signaling: opts[:ingress_signaling]})
+# |> via_out(:output, options: [kind: :audio])
+# |> child(:to_raw, Membrane.Opus.Decoder)
+# |> child(:pa_sink, PortAudio.Sink)
+
+# Over connection:
+# child(:webrtc_source, %Membrane.WebRTC.Source{signaling: opts[:ingress_signaling]})
+# |> via_out(:output, options: [kind: :audio])
+# |> child(:call_sink, %CallSink{receiver: Keyword.get(opts, :receiver, self())}),
+#
+# child(:call_source, %CallSource{register_name: Keyword.get(opts, :receiver, self())})
+# |> child(:to_raw, Membrane.Opus.Decoder)
+# |> child(:pa_sink, PortAudio.Sink)
+
+# Encode from RawAudio to Opus
+# child(:opus_encoder, %Membrane.Opus.Encoder{
+#   application: :voip,
+#   input_stream_format: %Membrane.RawAudio{
+#     channels: 2,
+#     sample_format: :s16le,
+#     sample_rate: 48_000
+#   }
+# }),
