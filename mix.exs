@@ -73,7 +73,8 @@ defmodule Hexcall.MixProject do
       {:membrane_matroska_plugin, "~> 0.6"},
       {:membrane_opus_plugin, "~> 0.20"},
       {:membrane_tee_plugin, "~> 0.12.0"},
-      {:membrane_funnel_plugin, "~> 0.9.2"}
+      {:membrane_funnel_plugin, "~> 0.9.2"},
+      {:membrane_portaudio_plugin, "~> 0.19.2"}
     ]
   end
 

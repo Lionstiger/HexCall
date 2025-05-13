@@ -20,27 +20,11 @@ defmodule Hexcall.CallSink do
 
   @impl true
   def handle_buffer(:input, buffer, _ctx, state) do
-    # IO.puts("Sending Buffer")
-    # IO.inspect(buffer.payload)
-    check_payload(buffer, state)
+    send(
+      state.receiver,
+      {:message, self(), buffer}
+    )
+
     {[], state}
-  end
-
-  defp check_payload(buffer, state) do
-    silence =
-      <<104, 7, 201, 121, 200, 201, 87, 192, 162, 18, 35, 250, 89, 158, 83, 159, 13, 157, 167,
-        158, 236, 186, 56, 202, 182, 217, 184, 160, 243, 96, 243, 64>>
-
-    silence2 =
-      <<120, 7, 201, 121, 200, 201, 87, 192, 162, 18, 35, 250, 239, 103, 243, 46, 227, 211, 213,
-        233, 236, 219, 62, 188, 128, 182, 110, 42, 183, 140, 131, 205, 131, 205, 0>>
-
-    # if buffer.payload == silence3 do
-    # IO.puts "Silence!"
-    # else
-    # IO.puts "Not Silence"
-    IO.inspect(buffer)
-    send(state.receiver, {:message, self(), buffer.payload})
-    # end
   end
 end
