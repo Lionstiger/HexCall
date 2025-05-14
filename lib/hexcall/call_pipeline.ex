@@ -1,8 +1,6 @@
 defmodule Hexcall.CallPipeline do
-  alias Membrane.RawAudio
   use Membrane.Pipeline
   alias Membrane.{Tee, Funnel, PortAudio}
-  # use Membrane.ChildrenSpec
   alias Hexcall.CallSource
   alias Hexcall.CallSink
 
@@ -14,14 +12,14 @@ defmodule Hexcall.CallPipeline do
       #
       child(:webrtc_source, %Membrane.WebRTC.Source{signaling: opts[:ingress_signaling]})
       |> via_out(:output, options: [kind: :audio])
-      |> child(:call_sink, %CallSink{receiver: Keyword.get(opts, :receiver, self())}),
+      |> child(:call_sink, %CallSink{roomname: opts[:roomname]}),
       #
       # Receiving Audio to output
       #
-      child(:call_source, %CallSource{register_name: Keyword.get(opts, :receiver, self())})
+      child(:call_source, %CallSource{roomname: opts[:roomname]})
       |> child(:parse, %Membrane.Opus.Parser{
         delimitation: :keep,
-        generate_best_effort_timestamps?: true
+        generate_best_effort_timestamps?: false # This doesnt matter for now
       })
       |> via_in(:input, options: [kind: :audio])
       |> child(:webrtc_sink, %Membrane.WebRTC.Sink{
