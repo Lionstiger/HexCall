@@ -1,5 +1,6 @@
 defmodule Hexcall.CallSink do
   use Membrane.Sink
+  alias Phoenix.PubSub
 
   def_input_pad(:input,
     flow_control: :auto,
@@ -7,24 +8,20 @@ defmodule Hexcall.CallSink do
   )
 
   def_options(
-    receiver: [
-      description: "PID of the process that will receive messages from the sink",
-      spec: pid()
+    roomname: [
+      description: "Name of the Room we send buffers to",
+      spec: String.t()
     ]
   )
 
   @impl true
   def handle_init(_ctx, opts) do
-    {[], %{receiver: opts.receiver}}
+    {[], %{roomname: opts.roomname}}
   end
 
   @impl true
   def handle_buffer(:input, buffer, _ctx, state) do
-    send(
-      state.receiver,
-      {:message, self(), buffer}
-    )
-
+    HexcallWeb.Endpoint.broadcast(state.roomname, "buffer", buffer)
     {[], state}
   end
 end

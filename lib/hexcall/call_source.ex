@@ -10,15 +10,15 @@ defmodule Hexcall.CallSource do
   )
 
   def_options(
-    register_name: [
-      description: "The name under which the element's process will be registered",
-      spec: atom()
+    roomname: [
+      description: "Name of the Room we subscribe to, to receive buffers from",
+      spec: String.t()
     ]
   )
 
   @impl true
   def handle_init(_ctx, opts) do
-    Process.register(self(), opts.register_name)
+    HexcallWeb.Endpoint.subscribe(opts.roomname)
     {[], %{buffered: []}}
   end
 
@@ -33,8 +33,9 @@ defmodule Hexcall.CallSource do
   end
 
   @impl true
-  def handle_info({:message, _source, message}, ctx, state) do
-    state = %{state | buffered: state.buffered ++ [message]}
+  def handle_info(%{event: "buffer", payload: payload}, ctx, state) do
+    # IO.inspect(payload)
+    state = %{state | buffered: state.buffered ++ [payload]}
 
     if ctx.playback == :playing do
       send_buffers(state)
@@ -47,6 +48,11 @@ defmodule Hexcall.CallSource do
   def handle_info(msg, _ctx, state) do
     Membrane.Logger.warning("Unknown message received: #{inspect(msg)}")
     {[], state}
+  end
+
+  @impl true
+  def handle_terminate_request(_context, state) do
+    HexcallWeb.Endpoint.unsubscribe(state.roomname)
   end
 
   defp send_buffers(state) do

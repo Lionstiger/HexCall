@@ -5,13 +5,8 @@ defmodule HexcallWeb.CallLive do
   alias Membrane.WebRTC.Live.{Capture, Player}
 
   @impl true
-  def mount(_params, _session, socket) do
-    # if connected?(socket) do
-    # TODO: setup webrtc connection (both ways) here
+  def mount(%{"room" => room}, _session, socket) do
     # TODO: sign up to room position topic
-    # else
-    # {:ok, socket}
-    # end
 
     socket =
       if connected?(socket) do
@@ -21,8 +16,7 @@ defmodule HexcallWeb.CallLive do
         Membrane.Pipeline.start_link(Hexcall.CallPipeline,
           ingress_signaling: ingress_signaling,
           egress_signaling: egress_signaling,
-          receiver: :breadsticks
-          # receiver: self()
+          roomname: room
         )
 
         socket
