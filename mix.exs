@@ -40,6 +40,7 @@ defmodule Hexcall.MixProject do
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:live_debugger, "~> 0.1.7", only: :dev},
+      {:tidewave, "~> 0.1", only: :dev},
 
       # ecto
       {:ecto_sql, "~> 3.10"},
