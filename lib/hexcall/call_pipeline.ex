@@ -1,6 +1,6 @@
 defmodule Hexcall.CallPipeline do
   use Membrane.Pipeline
-  alias Membrane.{Tee, Funnel, PortAudio}
+  # alias Membrane.{Tee, Funnel, PortAudio}
   alias Hexcall.CallSource
   alias Hexcall.CallSink
 
@@ -19,7 +19,8 @@ defmodule Hexcall.CallPipeline do
       child(:call_source, %CallSource{roomname: opts[:roomname]})
       |> child(:parse, %Membrane.Opus.Parser{
         delimitation: :keep,
-        generate_best_effort_timestamps?: false # This doesnt matter for now
+        # This doesnt matter for now
+        generate_best_effort_timestamps?: false
       })
       |> via_in(:input, options: [kind: :audio])
       |> child(:webrtc_sink, %Membrane.WebRTC.Sink{
