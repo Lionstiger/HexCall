@@ -1,6 +1,5 @@
 defmodule Hexcall.CallSink do
   use Membrane.Sink
-  alias Phoenix.PubSub
 
   def_input_pad(:input,
     flow_control: :auto,
