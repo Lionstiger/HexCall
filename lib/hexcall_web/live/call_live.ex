@@ -6,8 +6,6 @@ defmodule HexcallWeb.CallLive do
 
   @impl true
   def mount(%{"room" => room}, _session, socket) do
-    # TODO: sign up to room position topic
-
     socket =
       if connected?(socket) do
         ingress_signaling = Membrane.WebRTC.Signaling.new()
@@ -43,12 +41,8 @@ defmodule HexcallWeb.CallLive do
   #   IO.inspect(data)
   # end
 
-  # TODO: setup pipeline to parse uploaded audio
-
   # TODO: Setup receiving streams from other. Somehow merge all incoming audio into single output
   # TODO: Push this stream back down to client via webrtc
-
-  # TODO: Use pubsub to handle who audio is send to and who audio is received from
 
   # TODO: Send Position updates to RoomManager
 
