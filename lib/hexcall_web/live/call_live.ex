@@ -2,7 +2,8 @@ defmodule HexcallWeb.CallLive do
   use HexcallWeb, :live_view
   require Logger
 
-  alias Membrane.WebRTC.Live.{Capture, Player}
+  # alias Membrane.WebRTC.Live.{Capture, Player}
+  alias HexcallWeb.Components.{Capture, Player}
 
   @impl true
   def mount(%{"room" => room}, _session, socket) do
