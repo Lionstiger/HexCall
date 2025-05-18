@@ -23,8 +23,8 @@ import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 // import VoiceControl from "./hooks/audio_connection"
 import HexPosition from "./hooks/position_update";
-import createCaptureHook from "./hooks/capture";
-import createPlayerHook from "./hooks/player";
+import { createCaptureHook } from "./hooks/capture";
+import { createPlayerHook } from "./hooks/player";
 
 let Hooks = {};
 
