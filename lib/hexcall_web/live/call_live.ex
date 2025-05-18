@@ -4,35 +4,40 @@ defmodule HexcallWeb.CallLive do
 
   # alias Membrane.WebRTC.Live.{Capture, Player}
   alias HexcallWeb.Components.{Capture, Player}
+  alias Hexcall.Hives
 
   @impl true
-  def mount(%{"hive" => hive}, _session, socket) do
-    
-    socket =
-      if connected?(socket) do
-        ingress_signaling = Membrane.WebRTC.Signaling.new()
-        egress_signaling = Membrane.WebRTC.Signaling.new()
+  def mount(%{"hive" => hivename}, _session, socket) do
+    case Hives.get_hive_by_name(hivename) do
+      nil ->
+        {:ok, redirect(socket, to: "/")}
 
-        Membrane.Pipeline.start_link(Hexcall.CallPipeline,
-          ingress_signaling: ingress_signaling,
-          egress_signaling: egress_signaling,
-          hivename: hive
-        )
+      hive ->
+        if connected?(socket) do
+          ingress_signaling = Membrane.WebRTC.Signaling.new()
+          egress_signaling = Membrane.WebRTC.Signaling.new()
 
-        socket
-        |> Capture.attach(
-          id: "mediaCapture",
-          signaling: ingress_signaling
-        )
-        |> Player.attach(
-          id: "audioPlayer",
-          signaling: egress_signaling
-        )
-      else
-        socket
-      end
+          Membrane.Pipeline.start_link(Hexcall.CallPipeline,
+            ingress_signaling: ingress_signaling,
+            egress_signaling: egress_signaling,
+            hivename: hivename
+          )
 
-    {:ok, socket}
+          socket
+          |> Capture.attach(
+            id: "mediaCapture",
+            signaling: ingress_signaling
+          )
+          |> Player.attach(
+            id: "audioPlayer",
+            signaling: egress_signaling
+          )
+        else
+          socket
+        end
+
+        {:ok, assign(socket, :hive, hive)}
+    end
   end
 
   # @impl true
