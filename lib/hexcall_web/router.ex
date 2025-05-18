@@ -23,7 +23,7 @@ defmodule HexcallWeb.Router do
   scope "/room", HexcallWeb do
     pipe_through :browser
 
-    live "/", CallLive
+    # live "/", CallLive
     live "/:room", CallLive
   end
 
