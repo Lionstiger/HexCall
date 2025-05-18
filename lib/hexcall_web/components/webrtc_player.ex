@@ -131,7 +131,7 @@ defmodule HexcallWeb.Components.Player do
   @impl true
   def render(assigns) do
     ~H"""
-    <video id={@player.id} phx-hook="Player" class={@class} controls autoplay muted></video>
+    <audio id={@player.id} phx-hook="Player" class={@class} hidden autoplay></audio>
     """
   end
 
