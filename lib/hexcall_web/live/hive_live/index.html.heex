@@ -1,0 +1,43 @@
+<.header>
+  Listing Hives
+  <:actions>
+    <.link patch={~p"/admin/hives/new"}>
+      <.button>New Hive</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="hives"
+  rows={@streams.hives}
+  row_click={fn {_id, hive} -> JS.navigate(~p"/admin/hives/#{hive}") end}
+>
+  <:col :let={{_id, hive}} label="Name">{hive.name}</:col>
+  <:col :let={{_id, hive}} label="Size x">{hive.size_x}</:col>
+  <:col :let={{_id, hive}} label="Size y">{hive.size_y}</:col>
+  <:action :let={{_id, hive}}>
+    <div class="sr-only">
+      <.link navigate={~p"/admin/hives/#{hive}"}>Show</.link>
+    </div>
+    <.link patch={~p"/admin/hives/#{hive}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, hive}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: hive.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="hive-modal" show on_cancel={JS.patch(~p"/hives")}>
+  <.live_component
+    module={HexcallWeb.HiveLive.FormComponent}
+    id={@hive.id || :new}
+    title={@page_title}
+    action={@live_action}
+    hive={@hive}
+    patch={~p"/admin/hives"}
+  />
+</.modal>
