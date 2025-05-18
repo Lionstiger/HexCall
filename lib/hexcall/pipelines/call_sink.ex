@@ -7,20 +7,20 @@ defmodule Hexcall.CallSink do
   )
 
   def_options(
-    roomname: [
-      description: "Name of the Room we send buffers to",
+    hivename: [
+      description: "Name of the Hive we send buffers to",
       spec: String.t()
     ]
   )
 
   @impl true
   def handle_init(_ctx, opts) do
-    {[], %{roomname: opts.roomname}}
+    {[], %{hivename: opts.hivename}}
   end
 
   @impl true
   def handle_buffer(:input, buffer, _ctx, state) do
-    HexcallWeb.Endpoint.broadcast(state.roomname, "buffer", buffer)
+    HexcallWeb.Endpoint.broadcast(state.hivename, "buffer", buffer)
     {[], state}
   end
 end

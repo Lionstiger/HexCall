@@ -12,11 +12,11 @@ defmodule Hexcall.CallPipeline do
       #
       child(:webrtc_source, %Membrane.WebRTC.Source{signaling: opts[:ingress_signaling]})
       |> via_out(:output, options: [kind: :audio])
-      |> child(:call_sink, %CallSink{roomname: opts[:roomname]}),
+      |> child(:call_sink, %CallSink{hivename: opts[:hivename]}),
       #
       # Receiving Audio to output
       #
-      child(:call_source, %CallSource{roomname: opts[:roomname]})
+      child(:call_source, %CallSource{hivename: opts[:hivename]})
       |> child(:parse, %Membrane.Opus.Parser{
         delimitation: :keep,
         # This doesnt matter for now

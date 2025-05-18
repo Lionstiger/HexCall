@@ -10,15 +10,15 @@ defmodule Hexcall.CallSource do
   )
 
   def_options(
-    roomname: [
-      description: "Name of the Room we subscribe to, to receive buffers from",
+    hivename: [
+      description: "Name of the Hive we subscribe to, to receive buffers from",
       spec: String.t()
     ]
   )
 
   @impl true
   def handle_init(_ctx, opts) do
-    HexcallWeb.Endpoint.subscribe(opts.roomname)
+    HexcallWeb.Endpoint.subscribe(opts.hivename)
     {[], %{buffered: []}}
   end
 
@@ -52,7 +52,7 @@ defmodule Hexcall.CallSource do
 
   @impl true
   def handle_terminate_request(_context, state) do
-    HexcallWeb.Endpoint.unsubscribe(state.roomname)
+    HexcallWeb.Endpoint.unsubscribe(state.hivename)
   end
 
   defp send_buffers(state) do

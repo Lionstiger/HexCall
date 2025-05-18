@@ -20,11 +20,11 @@ defmodule HexcallWeb.Router do
     get "/", PageController, :home
   end
 
-  scope "/room", HexcallWeb do
+  scope "/hive", HexcallWeb do
     pipe_through :browser
 
     # live "/", CallLive
-    live "/:room", CallLive
+    live "/:hive", CallLive
   end
 
   # Other scopes may use custom stacks.

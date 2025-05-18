@@ -6,7 +6,8 @@ defmodule HexcallWeb.CallLive do
   alias HexcallWeb.Components.{Capture, Player}
 
   @impl true
-  def mount(%{"room" => room}, _session, socket) do
+  def mount(%{"hive" => hive}, _session, socket) do
+    
     socket =
       if connected?(socket) do
         ingress_signaling = Membrane.WebRTC.Signaling.new()
@@ -15,7 +16,7 @@ defmodule HexcallWeb.CallLive do
         Membrane.Pipeline.start_link(Hexcall.CallPipeline,
           ingress_signaling: ingress_signaling,
           egress_signaling: egress_signaling,
-          roomname: room
+          hivename: hive
         )
 
         socket
