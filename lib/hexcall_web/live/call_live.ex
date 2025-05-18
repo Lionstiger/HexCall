@@ -21,10 +21,7 @@ defmodule HexcallWeb.CallLive do
         socket
         |> Capture.attach(
           id: "mediaCapture",
-          signaling: ingress_signaling,
-          video?: false,
-          audio?: true,
-          preview?: false
+          signaling: ingress_signaling
         )
         |> Player.attach(
           id: "audioPlayer",

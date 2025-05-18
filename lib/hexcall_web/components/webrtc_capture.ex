@@ -1,6 +1,6 @@
 defmodule HexcallWeb.Components.Capture do
   @moduledoc ~S'''
-  LiveView for capturing audio and video from a browser and sending it via WebRTC to `Membrane.WebRTC.Source`.
+  LiveView for capturing audio from a browser and sending it via WebRTC to `Membrane.WebRTC.Source`.
 
   *Note:* This module will be available in your code only if you add `{:phoenix, "~> 1.7"}`
   and `{:phoenix_live_view, "~> 1.0"}` to the dependencies of of your root project.
@@ -60,13 +60,10 @@ defmodule HexcallWeb.Components.Capture do
 
   @type t() :: %__MODULE__{
           id: String.t(),
-          signaling: Signaling.t(),
-          preview?: boolean(),
-          audio?: boolean(),
-          video?: boolean()
+          signaling: Signaling.t()
         }
 
-  defstruct id: nil, signaling: nil, video?: true, audio?: true, preview?: true
+  defstruct id: nil, signaling: nil
 
   attr(:socket, Phoenix.LiveView.Socket, required: true, doc: "Parent live view socket")
 
@@ -102,10 +99,6 @@ defmodule HexcallWeb.Components.Capture do
   * `id` - capture id. It is used to identify live view and generated HTML video player. It must be unique
   within single page.
   * `signaling` - `Membrane.WebRTC.Signaling.t()`, that has been passed to `Membrane.WebRTC.Source` as well.
-  * `video?` - if `true`, the video stream from the computer camera will be captured. Defaults to `true`.
-  * `audio?` - if `true`, the audio stream from the computer microphone will be captured. Defaults to `true`.
-  * `preview?` - if `true`, the function `#{inspect(__MODULE__)}.live_render/1` will return a video HTML tag
-  with attached captured video stream. Defaults to `true`.
   """
   @spec attach(Phoenix.LiveView.Socket.t(), Keyword.t()) :: Phoenix.LiveView.Socket.t()
   def attach(socket, opts) do
@@ -113,10 +106,7 @@ defmodule HexcallWeb.Components.Capture do
       opts
       |> Keyword.validate!([
         :id,
-        :signaling,
-        video?: true,
-        audio?: true,
-        preview?: true
+        :signaling
       ])
 
     capture = struct!(__MODULE__, opts)
@@ -144,28 +134,9 @@ defmodule HexcallWeb.Components.Capture do
   end
 
   @impl true
-  def render(%{capture: %__MODULE__{preview?: true}} = assigns) do
+  def render(%{} = assigns) do
     ~H"""
-    <video
-      id={@capture.id}
-      phx-hook="Capture"
-      class={@class}
-      style="
-      -o-transform: scaleX(-1);
-      -moz-transform: scaleX(-1);
-      -webkit-transform: scaleX(-1);
-      -ms-transform: scaleX(-1);
-      transform: scaleX(-1);
-    "
-    >
-    </video>
-    """
-  end
-
-  @impl true
-  def render(%{capture: %__MODULE__{preview?: false}} = assigns) do
-    ~H"""
-    <video id={@capture.id} phx-hook="Capture" class={@class} style="display: none;"></video>
+    <audio id={@capture.id} phx-hook="Capture" class={@class} style="display: none;"></audio>
     """
   end
 
@@ -205,8 +176,8 @@ defmodule HexcallWeb.Components.Capture do
         |> Signaling.register_peer(message_format: :json_data)
 
         media_constraints = %{
-          "audio" => capture.audio?,
-          "video" => capture.video?
+          "audio" => true,
+          "video" => false
         }
 
         socket
