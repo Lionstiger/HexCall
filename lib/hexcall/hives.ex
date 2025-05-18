@@ -38,6 +38,24 @@ defmodule Hexcall.Hives do
   def get_hive!(id), do: Repo.get!(Hive, id)
 
   @doc """
+  Gets a single hive by its name.
+
+  Raises `Ecto.NoResultsError` if the Hive does not exist.
+
+  ## Examples
+
+      iex> get_hive_by_name!(breadsticks)
+      %Hive{}
+
+      iex> get_hive_by_name!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_hive_by_name(name) when is_bitstring(name) do
+    Repo.get_by(Hive, name: name)
+  end
+
+  @doc """
   Creates a hive.
 
   ## Examples
