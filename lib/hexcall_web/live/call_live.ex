@@ -8,11 +8,12 @@ defmodule HexcallWeb.CallLive do
 
   @impl true
   def mount(%{"hive" => hivename}, _session, socket) do
-    case Hives.get_hive_by_name(hivename) do
-      nil ->
-        {:ok, redirect(socket, to: "/")}
+    hive = Hives.get_hive_by_name(hivename)
 
-      hive ->
+    if is_nil(hive) do
+      {:ok, redirect(socket, to: "/")}
+    else
+      socket =
         if connected?(socket) do
           ingress_signaling = Membrane.WebRTC.Signaling.new()
           egress_signaling = Membrane.WebRTC.Signaling.new()
@@ -36,7 +37,7 @@ defmodule HexcallWeb.CallLive do
           socket
         end
 
-        {:ok, assign(socket, :hive, hive)}
+      {:ok, socket}
     end
   end
 
