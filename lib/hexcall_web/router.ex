@@ -1,4 +1,5 @@
 defmodule HexcallWeb.Router do
+  alias HexcallWeb.HiveLive
   use HexcallWeb, :router
 
   pipeline :browser do
@@ -25,6 +26,19 @@ defmodule HexcallWeb.Router do
 
     # live "/", CallLive
     live "/:hive", CallLive
+  end
+
+  scope "/admin" do
+    pipe_through :browser
+
+    # live_session :hives do
+    live "/hives", HiveLive.Index, :index
+    live "/hives/new", HiveLive.Index, :new
+    live "/hives/:id/edit", HiveLive.Index, :edit
+
+    live "/hives/:id", HiveLive.Show, :show
+    live "/hives/:id/show/edit", HiveLive.Show, :edit
+    # end
   end
 
   # Other scopes may use custom stacks.

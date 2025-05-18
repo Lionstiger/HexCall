@@ -1,0 +1,28 @@
+<.header>
+  Hive {@hive.id}
+  <:subtitle>This is a hive record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/admin/hives/#{@hive}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit hive</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name">{@hive.name}</:item>
+  <:item title="Size x">{@hive.size_x}</:item>
+  <:item title="Size y">{@hive.size_y}</:item>
+</.list>
+
+<.back navigate={~p"/admin/hives"}>Back to hives</.back>
+
+<.modal :if={@live_action == :edit} id="hive-modal" show on_cancel={JS.patch(~p"/hives/#{@hive}")}>
+  <.live_component
+    module={HexcallWeb.HiveLive.FormComponent}
+    id={@hive.id}
+    title={@page_title}
+    action={@live_action}
+    hive={@hive}
+    patch={~p"/admin/hives/#{@hive}"}
+  />
+</.modal>
