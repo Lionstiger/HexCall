@@ -3,7 +3,7 @@ defmodule HexcallWeb.CallLive do
   require Logger
 
   # alias Membrane.WebRTC.Live.{Capture, Player}
-  alias HexcallWeb.Components.{Capture, Player}
+  alias HexcallWeb.Components.{Capture, Player, HexCell}
   alias Hexcall.Hives
 
   @impl true
@@ -41,10 +41,12 @@ defmodule HexcallWeb.CallLive do
     end
   end
 
-  # @impl true
-  # def handle_event("webrtc_signaling", data, _socket) do
-  #   IO.inspect(data)
-  # end
+  @impl true
+  def handle_event("click", data, socket) do
+    IO.inspect(data)
+
+    {:noreply, socket}
+  end
 
   # TODO: Setup receiving streams from other. Somehow merge all incoming audio into single output
   # TODO: Push this stream back down to client via webrtc
