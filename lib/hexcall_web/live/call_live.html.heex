@@ -3,7 +3,7 @@
 <%!-- <h3>Stream sent by the server</h3> --%>
 <Player.live_render socket={@socket} player_id="audioPlayer" />
 
-<%!-- TODO Build a 5x5 hexgrid here--%>
+<HexCell.grid />
 
 <div
   x-data="{ muted: false,

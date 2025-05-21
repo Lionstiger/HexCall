@@ -25,9 +25,12 @@ import topbar from "../vendor/topbar";
 import HexPosition from "./hooks/position_update";
 import { createCaptureHook } from "./hooks/capture";
 import { createPlayerHook } from "./hooks/player";
+import { hexGridData } from "./hexgrid";
 
 let Hooks = {};
 
+// We need to set this before we initialize Alpine
+window.hexGridData = hexGridData;
 // Import and enable Alpine here
 import Alpine from "alpinejs";
 Alpine.start();

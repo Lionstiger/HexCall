@@ -3,3 +3,9 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+.pan-grab {
+    cursor: grab;
+}
+.pan-grabbing {
+    cursor: grabbing;
+}
