@@ -37,7 +37,7 @@ defmodule HexcallWeb.CallLive do
           socket
         end
 
-      {:ok, socket}
+      {:ok, socket, layout: false}
     end
   end
 
