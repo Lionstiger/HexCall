@@ -5,15 +5,29 @@
 
 <%!-- TODO Build a 5x5 hexgrid here--%>
 
-<div x-data="{ muted: false,
-               muteUnmute() {
+<div
+  x-data="{ muted: false,
+              muteUnmute() {
                  this.muted = !this.muted;
                  mediaCapture.srcObject.getAudioTracks().forEach(track => {
                    track.enabled = !this.muted;
                  });
                  console.log('Muted: ', this.muted);
-               }
-             }">
+               },
+            preview: false,
+              previewToggle() {
+                this.preview = !this.preview;
+                if (this.preview) {
+                  mediaCapture.play()
+                }
+                else {
+                  mediaCapture.pause()
+                }
+                console.log('preview: ', this.preview);
+              }
+            }"
+  class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white p-4"
+>
   <button
     id="muteButton"
     @click="muteUnmute()"
@@ -21,6 +35,17 @@
     x-bind:class="{
        'bg-green-500 hover:bg-green-700': muted,
        'bg-red-500 hover:bg-red-700': !muted
+     }"
+    class="text-white font-bold py-2 px-4"
+  >
+  </button>
+  <button
+    id="previewButton"
+    @click="previewToggle()"
+    x-text="preview ? 'No Echo' : 'Echo'"
+    x-bind:class="{
+       'bg-green-500 hover:bg-green-700': preview,
+       'bg-red-500 hover:bg-red-700': !preview
      }"
     class="text-white font-bold py-2 px-4"
   >
