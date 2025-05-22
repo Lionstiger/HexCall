@@ -12,8 +12,8 @@ defmodule HexcallWeb.Components.HexCell do
   @hex_vertical_spacing @hex_height * 0.86
 
   # Define grid dimensions
-  @grid_width 10
-  @grid_height 10
+  @grid_width 15
+  @grid_height 15
 
   @total_grid_width @grid_width * @hex_horizontal_spacing + @hex_width / 2
   @total_grid_height @grid_height * @hex_vertical_spacing + @hex_height / 2
