@@ -12,8 +12,8 @@ defmodule HexcallWeb.Components.HexCell do
   @hex_vertical_spacing @hex_height * 0.86
 
   # Define grid dimensions
-  @grid_width 15
-  @grid_height 15
+  @grid_width 30
+  @grid_height 30
 
   @total_grid_width @grid_width * @hex_horizontal_spacing + @hex_width / 2
   @total_grid_height @grid_height * @hex_vertical_spacing + @hex_height / 2
@@ -24,7 +24,7 @@ defmodule HexcallWeb.Components.HexCell do
   attr :hex_horizontal_spacing, :float, default: @hex_horizontal_spacing
   attr :hex_vertical_spacing, :float, default: @hex_vertical_spacing
 
-  attr :grid_length, :integer, default: @grid_width
+  attr :grid_width, :integer, default: @grid_width
   attr :grid_height, :integer, default: @grid_height
 
   attr :total_grid_width, :float, default: @total_grid_width
@@ -34,8 +34,8 @@ defmodule HexcallWeb.Components.HexCell do
     ~H"""
     <div
       id="hex-grid-container"
-      class="overflow-auto w-screen h-screen bg-gray-100 pan-grab"
-      x-data="window.hexGridData()"
+      class="overflow-hidden w-screen h-screen bg-gray-100 pan-grab"
+      x-data="hexGridData()"
       x-init="init()"
       x-on:wheel.prevent="handleWheel($event)"
       x-on:mousedown="startPanning($event)"
@@ -47,17 +47,21 @@ defmodule HexcallWeb.Components.HexCell do
       data-hex-height={@hex_height}
       data-hex-horizontal-spacing={@hex_horizontal_spacing}
       data-hex-vertical-spacing={@hex_vertical_spacing}
-      data-min-scale="0.5"
+      data-min-scale="0.3"
       data-max-scale="2.0"
     >
       <div
         id="hex-grid"
         class="relative origin-top-left"
         x-ref="grid"
-        x-bind:style={"`transform: translate(${currentTranslateX}px, ${currentTranslateY}px) scale(${currentScale}); transform-origin: 0 0; height: #{@total_grid_height}px; width: #{@total_grid_width}px;`"}
+        style={[
+          "height: #{@total_grid_height}px;",
+          "width: #{@total_grid_width}px;",
+          "scale: 1.0;"
+        ]}
       >
         <%= for row <- 0..(@grid_height - 1) do %>
-          <%= for col <- 0..(@grid_length - 1) do %>
+          <%= for col <- 0..(@grid_width - 1) do %>
             <.element
               col={col}
               row={row}
@@ -80,6 +84,8 @@ defmodule HexcallWeb.Components.HexCell do
 
   attr :col, :integer, required: true
   attr :row, :integer, required: true
+  attr :grid_width, :integer, default: @grid_width
+  attr :grid_height, :integer, default: @grid_height
 
   attr :hex_height, :float, default: @hex_height
   attr :hex_width, :float, default: @hex_width
@@ -98,9 +104,12 @@ defmodule HexcallWeb.Components.HexCell do
               height: #{@hex_height}px;"
               }
       class={[
-        "m-1 -my-7 text-black",
         "absolute transition-colors duration-200",
-        "bg-#{Enum.random(["red", "blue", "green"])}-500 ",
+        if @col == 0 or @row == 0 or @row == @grid_width - 1 or @col == @grid_height - 1 do
+          "bg-black"
+        else
+          "bg-#{Enum.random(["red", "blue", "green"])}-500"
+        end,
         "hover:bg-zinc-700",
         @class
       ]}
