@@ -31,7 +31,12 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="hive-modal" show on_cancel={JS.patch(~p"/hives")}>
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="hive-modal"
+  show
+  on_cancel={JS.patch(~p"/admin/hives")}
+>
   <.live_component
     module={HexcallWeb.HiveLive.FormComponent}
     id={@hive.id || :new}

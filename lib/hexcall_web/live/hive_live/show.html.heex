@@ -16,7 +16,12 @@
 
 <.back navigate={~p"/admin/hives"}>Back to hives</.back>
 
-<.modal :if={@live_action == :edit} id="hive-modal" show on_cancel={JS.patch(~p"/hives/#{@hive}")}>
+<.modal
+  :if={@live_action == :edit}
+  id="hive-modal"
+  show
+  on_cancel={JS.patch(~p"/admin/hives/#{@hive}")}
+>
   <.live_component
     module={HexcallWeb.HiveLive.FormComponent}
     id={@hive.id}
