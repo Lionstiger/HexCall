@@ -3,6 +3,7 @@ export function hexGridData() {
     // State
     scrollingIntensity: 0.001,
     isPanning: false,
+    isClickPossible: false,
     startX: 0,
     startY: 0,
     panInitialScrollLeft: 0,

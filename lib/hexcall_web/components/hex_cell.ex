@@ -113,7 +113,9 @@ defmodule HexcallWeb.Components.HexCell do
         "hover:bg-zinc-700",
         @class
       ]}
-      phx-click="click"
+      x-on:mousedown="isClickPossible = true"
+      x-on:mousemove="isClickPossible = false"
+      x-bind:phx-click="isClickPossible ? 'click' : ''"
       phx-value-col={@col}
       phx-value-row={@row}
       {@rest}
