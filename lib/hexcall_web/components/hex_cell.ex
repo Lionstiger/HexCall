@@ -121,5 +121,3 @@ defmodule HexcallWeb.Components.HexCell do
     """
   end
 end
-
-# py-2 px-3
