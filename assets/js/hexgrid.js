@@ -54,8 +54,6 @@ export function hexGridData() {
 
       // Set the grid to the new scale
       grid.style.scale = newScale;
-      console.warn("tagerScrollX:" + targetScrollX);
-      console.warn("tagerScrollX:" + targetScrollY);
 
       // Initialize scroll targets from the parameters
       let finalScrollX = targetScrollX;
