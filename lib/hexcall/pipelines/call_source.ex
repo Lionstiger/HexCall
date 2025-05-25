@@ -53,6 +53,7 @@ defmodule Hexcall.CallSource do
   @impl true
   def handle_terminate_request(_context, state) do
     HexcallWeb.Endpoint.unsubscribe(state.hivename)
+    {[], state}
   end
 
   defp send_buffers(state) do
