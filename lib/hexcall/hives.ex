@@ -19,6 +19,7 @@ defmodule Hexcall.Hives do
   """
   def list_hives do
     Repo.all(Hive)
+    |> Repo.preload(:hexes)
   end
 
   @doc """
