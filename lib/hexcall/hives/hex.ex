@@ -19,14 +19,24 @@ defmodule Hexcall.Hives.Hex do
   @doc false
   def changeset(hex, attrs) do
     hex
-    |> cast(attrs, [:q, :r, :type])
-    |> calculate_s_coordinate()
-    |> validate_required([:q, :r, :s, :type])
+    |> cast(attrs, [:q, :r, :s, :type])
+    |> cast_assoc(:hive)
+    |> validate_zero_sum()
+    |> validate_required([:q, :r, :s, :type, :hive])
   end
 
-  defp calculate_s_coordinate(changeset) do
+  @doc """
+  Changeset calcultion
+  """
+  defp validate_zero_sum(changeset) do
     q = get_field(changeset, :q)
     r = get_field(changeset, :r)
-    put_change(changeset, :s, -q - r)
+    s = get_field(changeset, :s)
+
+    if r + q + s == 0 do
+      changeset
+    else
+      add_error(changeset, [:s, :r, :q], "Invalid Coordinates, Sum must be 0.")
+    end
   end
 end

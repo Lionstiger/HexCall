@@ -1,5 +1,6 @@
 defmodule Hexcall.Hexes do
   alias Hexcall.Hives.Hex
+  alias Hexcall.Repo
   import Ecto.Query
 
   @doc """
@@ -30,5 +31,23 @@ defmodule Hexcall.Hexes do
         s: fragment("-? - ?", h.q, h.r),
         type: h.type
       }
+  end
+
+  @doc """
+  Creates a Hex.
+
+  ## Examples
+
+      iex> create_hex(%{field: value})
+      {:ok, %Hive{}}
+
+      iex> create_hex(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_hex(attrs \\ %{}) do
+    %Hex{}
+    |> Hex.changeset(attrs)
+    |> Repo.insert()
   end
 end
