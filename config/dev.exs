@@ -72,7 +72,7 @@ config :logger,
        format: "$time $metadata[$level] $message\n",
        # metadata: [:request_id, :module, :application]
        metadata: [:request_id],
-       level: :info
+       level: :debug
 
 Logger.put_module_level(ExICE.Priv.ICEAgent, :info)
 Logger.put_module_level(ExICE.Priv.ConnCheckHandler.Controlling, :info)
