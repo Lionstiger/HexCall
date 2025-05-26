@@ -8,6 +8,7 @@ defmodule Hexcall.Hives.Hex do
   schema "hexes" do
     field :q, :integer
     field :r, :integer
+    field :s, :integer, virtual: true
     field :type, Ecto.Enum, values: [:basic, :group, :meeting, :disabled]
 
     belongs_to :hive, Hive
@@ -19,6 +20,13 @@ defmodule Hexcall.Hives.Hex do
   def changeset(hex, attrs) do
     hex
     |> cast(attrs, [:q, :r, :type])
-    |> validate_required([:q, :r, :type])
+    |> calculate_s_coordinate()
+    |> validate_required([:q, :r, :s, :type])
+  end
+
+  defp calculate_s_coordinate(changeset) do
+    q = get_field(changeset, :q)
+    r = get_field(changeset, :r)
+    put_change(changeset, :s, -q - r)
   end
 end
