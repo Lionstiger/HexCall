@@ -4,6 +4,7 @@ defmodule Hexcall.Hives do
   """
 
   import Ecto.Query, warn: false
+  alias Hexcall.Hexes
   alias Hexcall.Repo
 
   alias Hexcall.Hives.Hive
@@ -19,7 +20,7 @@ defmodule Hexcall.Hives do
   """
   def list_hives do
     Repo.all(Hive)
-    |> Repo.preload(:hexes)
+    |> Repo.preload(hexes: Hexes.load_all_query())
   end
 
   @doc """
