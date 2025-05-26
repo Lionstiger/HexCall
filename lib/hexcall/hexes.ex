@@ -50,4 +50,17 @@ defmodule Hexcall.Hexes do
     |> Hex.changeset(attrs)
     |> Repo.insert()
   end
+
+  def create_hex_from_list(list) do
+    current_time = DateTime.utc_now(:second)
+
+    new_list =
+      Enum.map(list, fn hex ->
+        hex
+        |> Map.put(:inserted_at, current_time)
+        |> Map.put(:updated_at, current_time)
+      end)
+
+    Repo.insert_all(Hex, new_list)
+  end
 end
