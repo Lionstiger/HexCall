@@ -20,6 +20,10 @@ defmodule Hexcall.Hives do
   """
   def list_hives do
     Repo.all(Hive)
+  end
+
+  def list_hives_with_hexes do
+    Repo.all(Hive)
     |> Repo.preload(hexes: Hexes.load_all_query())
   end
 
@@ -70,9 +74,34 @@ defmodule Hexcall.Hives do
 
   """
   def create_hive(attrs \\ %{}) do
-    %Hive{}
-    |> Hive.changeset(attrs)
-    |> Repo.insert()
+    result =
+      %Hive{}
+      |> Hive.changeset(attrs)
+      |> Repo.insert()
+
+    {:ok, new_hive} = result
+
+    # create hexes:
+    for r <- 0..(new_hive.size_y - 1) do
+      for q <- (0 - floor(r / 2.0))..(new_hive.size_x - 1 - floor(r / 2.0)) do
+        Logger.warn("this is happening")
+        s = -q - r
+
+        new_hex =
+        d          %Hex{
+            q: q,
+            r: r,
+            s: s,
+            type: :basic,
+            hive_id: new_hive.id
+            # hive: Map.from_struct(new_hive)
+          })
+
+        IO.inspect(new_hex)
+      end
+    end
+
+    result
   end
 
   @doc """
