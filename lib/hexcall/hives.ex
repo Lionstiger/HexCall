@@ -4,6 +4,7 @@ defmodule Hexcall.Hives do
   """
 
   import Ecto.Query, warn: false
+  alias Hexcall.Hives.Hex
   alias Hexcall.Hexes
   alias Hexcall.Repo
 
@@ -82,25 +83,18 @@ defmodule Hexcall.Hives do
     {:ok, new_hive} = result
 
     # create hexes:
-    for r <- 0..(new_hive.size_y - 1) do
-      for q <- (0 - floor(r / 2.0))..(new_hive.size_x - 1 - floor(r / 2.0)) do
-        Logger.warn("this is happening")
-        s = -q - r
+    # builds a list with all hexes we need in our hive.
+    # reworked from here: https://www.redblobgames.com/grids/hexagons/implementation.html#shape-rectangle
+    list =
+      Enum.flat_map(0..(new_hive.size_y - 1), fn r ->
+        Enum.map((0 - floor(r / 2.0))..(new_hive.size_x - 1 - floor(r / 2.0)), fn q ->
+          # s = -q - r
+          %{q: q, r: r, type: :basic, hive_id: new_hive.id}
+        end)
+      end)
 
-        new_hex =
-        d          %Hex{
-            q: q,
-            r: r,
-            s: s,
-            type: :basic,
-            hive_id: new_hive.id
-            # hive: Map.from_struct(new_hive)
-          })
-
-        IO.inspect(new_hex)
-      end
-    end
-
+    Hexes.create_hex_from_list(list)
+    # TODO: rework this to a transaction
     result
   end
 
