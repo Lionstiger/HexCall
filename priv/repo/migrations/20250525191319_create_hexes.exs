@@ -12,6 +12,6 @@ defmodule Hexcall.Repo.Migrations.CreateHexes do
       timestamps(type: :utc_datetime)
     end
 
-    create index(:hexes, [:hive, :q, :r])
+    create index(:hexes, [:hive_id, :q, :r])
   end
 end
