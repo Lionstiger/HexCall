@@ -25,9 +25,7 @@ defmodule Hexcall.Hives.Hex do
     |> validate_required([:q, :r, :s, :type, :hive_id])
   end
 
-  @doc """
-  Changeset calculation
-  """
+  @doc false
   defp validate_zero_sum(changeset) do
     q = get_field(changeset, :q)
     r = get_field(changeset, :r)
