@@ -23,11 +23,6 @@ defmodule Hexcall.Hives do
     Repo.all(Hive)
   end
 
-  def list_hives_with_hexes do
-    Repo.all(Hive)
-    |> Repo.preload(hexes: Hexes.load_all_query())
-  end
-
   @doc """
   Gets a single hive.
 
