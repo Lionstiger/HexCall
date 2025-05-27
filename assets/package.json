@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@alpinejs/resize": "^3.14.9",
     "alpinejs": "^3.14.9"
   }
 }

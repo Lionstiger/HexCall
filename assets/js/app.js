@@ -33,6 +33,8 @@ let Hooks = {};
 window.hexGridData = hexGridData;
 // Import and enable Alpine here
 import Alpine from "alpinejs";
+import resize from "@alpinejs/resize";
+Alpine.plugin(resize);
 Alpine.start();
 window.Alpine = Alpine;
 
