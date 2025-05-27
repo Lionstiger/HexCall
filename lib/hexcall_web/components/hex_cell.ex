@@ -60,17 +60,20 @@ defmodule HexcallWeb.Components.HexCell do
           "scale: 1.0;"
         ]}
       >
-        <%= for row <- 0..(@grid_height - 1) do %>
-          <%= for col <- 0..(@grid_width - 1) do %>
+        <%= for r <- 0..(@grid_height - 1) do %>
+          <%= for q <- (0-floor(r/2.0))..(@grid_width - 1 - floor(r/2.0)) do %>
             <.element
-              col={col}
-              row={row}
+              row={r}
+              col={calculate_col(q, r)}
+              r={r}
+              q={q}
+              s={-q - r}
               x={
-                if rem(row, 2) != 0,
-                  do: col * @hex_horizontal_spacing - @hex_horizontal_spacing / 2,
-                  else: col * @hex_horizontal_spacing
+                if rem(r, 2) != 0,
+                  do: calculate_col(q, r) * @hex_horizontal_spacing,
+                  else: calculate_col(q, r) * @hex_horizontal_spacing + @hex_horizontal_spacing / 2
               }
-              y={row * @hex_vertical_spacing}
+              y={r * @hex_vertical_spacing}
             />
           <% end %>
         <% end %>
@@ -84,6 +87,11 @@ defmodule HexcallWeb.Components.HexCell do
 
   attr :col, :integer, required: true
   attr :row, :integer, required: true
+
+  attr :r, :integer, required: true
+  attr :q, :integer, required: true
+  attr :s, :integer, required: true
+
   attr :grid_width, :integer, default: @grid_width
   attr :grid_height, :integer, default: @grid_height
 
@@ -103,23 +111,30 @@ defmodule HexcallWeb.Components.HexCell do
               width: #{@hex_width}px;
               height: #{@hex_height}px;"
               }
-      class={[
-        "absolute transition-colors duration-200",
-        if @col == 0 or @row == 0 or @row == @grid_width - 1 or @col == @grid_height - 1 do
-          "bg-black"
-        else
-          "bg-#{Enum.random(["red", "blue", "green"])}-500"
-        end,
-        "hover:bg-zinc-700",
-        @class
-      ]}
+      class={
+        [
+          "absolute transition-colors duration-200",
+          # if @col == 0 or @row == 0 or @row == @grid_width - 1 or @col == @grid_height - 1 do
+          # "bg-black"
+          # else
+          "bg-#{Enum.random(["red", "blue", "green"])}-500",
+          # end,
+          "hover:bg-zinc-700",
+          @class
+        ]
+      }
       x-on:mousedown="isClickPossible = true"
       x-on:mousemove="isClickPossible = false"
       x-bind:phx-click="isClickPossible ? 'click' : ''"
-      phx-value-col={@col}
-      phx-value-row={@row}
+      phx-value-r={@r}
+      phx-value-q={@q}
+      phx-value-s={@s}
       {@rest}
     />
     """
+  end
+
+  defp calculate_col(q, r) do
+    q + div(r + 1 * rem(r, 2), 2)
   end
 end
