@@ -8,7 +8,7 @@ defmodule HexcallWeb.CallLive do
 
   @impl true
   def mount(%{"hive" => hivename}, _session, socket) do
-    hive = Hives.get_hive_by_name(hivename)
+    hive = Hives.get_hive_by_name_with_hexes(hivename)
 
     if is_nil(hive) do
       {:ok, redirect(socket, to: "/")}
@@ -37,7 +37,7 @@ defmodule HexcallWeb.CallLive do
           socket
         end
 
-      {:ok, socket, layout: false}
+      {:ok, socket |> assign(:hive, hive), layout: false}
     end
   end
 
