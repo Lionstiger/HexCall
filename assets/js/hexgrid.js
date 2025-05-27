@@ -92,15 +92,13 @@ export function hexGridData() {
       // If the visual grid is smaller than the container, there's no scroll in that dimension (it's centered by translation).
       const maxScrollLeft = Math.max(
         0,
-        visualGridWidth -
-          container.clientWidth -
-          container.dataset.hexWidth / 2,
+        visualGridWidth - container.clientWidth,
+        // container.dataset.hexWidth / 2,
       );
       const maxScrollTop = Math.max(
         0,
-        visualGridHeight -
-          container.clientHeight -
-          container.dataset.hexHeight / 2,
+        visualGridHeight - container.clientHeight,
+        // container.dataset.hexHeight / 2,
       );
 
       // Clamp finalScrollX and finalScrollY to be within valid scrollable range [0, maxScroll]
@@ -194,15 +192,13 @@ export function hexGridData() {
 
       const maxScrollLeft = Math.max(
         0,
-        visualGridWidth -
-          container.clientWidth -
-          container.dataset.hexWidth / 2,
+        visualGridWidth - container.clientWidth,
+        // container.dataset.hexWidth / 2,
       );
       const maxScrollTop = Math.max(
         0,
-        visualGridHeight -
-          container.clientHeight -
-          container.dataset.hexHeight / 2,
+        visualGridHeight - container.clientHeight,
+        // container.dataset.hexHeight / 2,
       );
 
       newScrollLeft = Math.max(0, Math.min(newScrollLeft, maxScrollLeft));
