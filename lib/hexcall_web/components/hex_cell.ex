@@ -54,6 +54,7 @@ defmodule HexcallWeb.Components.HexCell do
       >
         <%= for hex <- @hexes do %>
           <.element
+            type={hex.type}
             row={hex.r}
             col={calculate_col(hex.q, hex.r)}
             r={hex.r}
@@ -83,6 +84,8 @@ defmodule HexcallWeb.Components.HexCell do
   attr :q, :integer, required: true
   attr :s, :integer, required: true
 
+  attr :type, :atom, required: true
+
   attr :hex_height, :float, default: @hex_height
   attr :hex_width, :float, default: @hex_width
   attr :class, :string, default: nil
@@ -99,18 +102,17 @@ defmodule HexcallWeb.Components.HexCell do
               width: #{@hex_width}px;
               height: #{@hex_height}px;"
               }
-      class={
-        [
-          "absolute transition-colors duration-200",
-          # if @col == 0 or @row == 0 or @row == @grid_width - 1 or @col == @grid_height - 1 do
-          # "bg-black"
-          # else
-          "bg-#{Enum.random(["red", "blue", "green"])}-500",
-          # end,
-          "hover:bg-zinc-700",
-          @class
-        ]
-      }
+      class={[
+        "absolute transition-colors duration-200",
+        case @type do
+          :basic -> "bg-#{Enum.random(["red", "blue", "green"])}-500"
+          :group -> "bg-white"
+          :meeting -> "bg-white"
+          :disabled -> "bg-black"
+        end,
+        "hover:bg-zinc-700",
+        @class
+      ]}
       x-on:mousedown="isClickPossible = true"
       x-on:mousemove="isClickPossible = false"
       x-bind:phx-click="isClickPossible ? 'click' : ''"
