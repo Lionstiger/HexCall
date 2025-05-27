@@ -11,24 +11,16 @@ defmodule HexcallWeb.Components.HexCell do
   # Vertical distance between hex centers in adjacent columns (approx hexHeight * sqrt(3)/2)
   @hex_vertical_spacing @hex_height * 0.86
 
-  # Define grid dimensions
-  @grid_width 30
-  @grid_height 30
-
-  @total_grid_width @grid_width * @hex_horizontal_spacing + @hex_width / 2
-  @total_grid_height @grid_height * @hex_vertical_spacing + @hex_height / 2
-
   attr :hex_width, :float, default: @hex_width
   attr :hex_height, :float, default: @hex_height
 
   attr :hex_horizontal_spacing, :float, default: @hex_horizontal_spacing
   attr :hex_vertical_spacing, :float, default: @hex_vertical_spacing
 
-  attr :grid_width, :integer, default: @grid_width
-  attr :grid_height, :integer, default: @grid_height
+  attr :grid_width, :integer, required: true
+  attr :grid_height, :integer, required: true
 
-  attr :total_grid_width, :float, default: @total_grid_width
-  attr :total_grid_height, :float, default: @total_grid_height
+  attr :hexes, :list, required: true
 
   def grid(assigns) do
     ~H"""
@@ -55,27 +47,26 @@ defmodule HexcallWeb.Components.HexCell do
         class="relative origin-top-left"
         x-ref="grid"
         style={[
-          "height: #{@total_grid_height}px;",
-          "width: #{@total_grid_width}px;",
+          "height: #{@grid_height * @hex_vertical_spacing + @hex_height / 2}px;",
+          "width: #{@grid_width * @hex_horizontal_spacing + @hex_width / 2}px;",
           "scale: 1.0;"
         ]}
       >
-        <%= for r <- 0..(@grid_height - 1) do %>
-          <%= for q <- (0-floor(r/2.0))..(@grid_width - 1 - floor(r/2.0)) do %>
-            <.element
-              row={r}
-              col={calculate_col(q, r)}
-              r={r}
-              q={q}
-              s={-q - r}
-              x={
-                if rem(r, 2) != 0,
-                  do: calculate_col(q, r) * @hex_horizontal_spacing,
-                  else: calculate_col(q, r) * @hex_horizontal_spacing + @hex_horizontal_spacing / 2
-              }
-              y={r * @hex_vertical_spacing}
-            />
-          <% end %>
+        <%= for hex <- @hexes do %>
+          <.element
+            row={hex.r}
+            col={calculate_col(hex.q, hex.r)}
+            r={hex.r}
+            q={hex.q}
+            s={-hex.q - hex.r}
+            x={
+              if rem(hex.r, 2) != 0,
+                do:
+                  calculate_col(hex.q, hex.r) * @hex_horizontal_spacing - @hex_horizontal_spacing / 2,
+                else: calculate_col(hex.q, hex.r) * @hex_horizontal_spacing
+            }
+            y={hex.r * @hex_vertical_spacing}
+          />
         <% end %>
       </div>
     </div>
@@ -91,9 +82,6 @@ defmodule HexcallWeb.Components.HexCell do
   attr :r, :integer, required: true
   attr :q, :integer, required: true
   attr :s, :integer, required: true
-
-  attr :grid_width, :integer, default: @grid_width
-  attr :grid_height, :integer, default: @grid_height
 
   attr :hex_height, :float, default: @hex_height
   attr :hex_width, :float, default: @hex_width

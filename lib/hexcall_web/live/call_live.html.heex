@@ -3,7 +3,7 @@
 <%!-- <h3>Stream sent by the server</h3> --%>
 <Player.live_render socket={@socket} player_id="audioPlayer" />
 
-<HexCell.grid />
+<HexCell.grid grid_width={@hive.size_x} grid_height={@hive.size_y} hexes={@hive.hexes} />
 
 <div
   x-data="{ muted: false,
