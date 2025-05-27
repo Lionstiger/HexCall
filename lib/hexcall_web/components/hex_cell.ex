@@ -34,6 +34,7 @@ defmodule HexcallWeb.Components.HexCell do
       x-on:mousemove="handlePanning($event)"
       x-on:mouseup="stopPanning()"
       x-on:mouseleave="stopPanning()"
+      x-resize="handleResize($width,$height)"
       x-bind:class="{ 'pan-grabbing': isPanning }"
       data-hex-width={@hex_width}
       data-hex-height={@hex_height}

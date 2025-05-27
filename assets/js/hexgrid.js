@@ -213,5 +213,18 @@ export function hexGridData() {
         this.isPanning = false;
       }
     },
+
+    // --- Resize Functionality ---
+    handleResize(_width, _height) {
+      const container = this.$el;
+      const oldScale = parseFloat(this.$refs.grid.style.scale);
+
+      // We just apply the old scale again, together with the current scroll states.
+      this.applyTransformAndScroll(
+        oldScale,
+        container.scrollLeft,
+        container.scrollTop,
+      );
+    },
   };
 }
