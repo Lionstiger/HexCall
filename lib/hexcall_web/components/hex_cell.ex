@@ -94,8 +94,7 @@ defmodule HexcallWeb.Components.HexCell do
 
   def element(assigns) do
     ~H"""
-    <input
-      type="button"
+    <div
       id={"hex-"<> Integer.to_string(@col) <>"-"<> Integer.to_string(@row)}
       style={"clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
               left: #{@x}px;

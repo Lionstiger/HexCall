@@ -54,7 +54,6 @@ defmodule HexcallWeb.CallLive do
   def handle_event("click", data, socket) do
     hive_manager = socket.assigns.hive_manager
     user_id = socket.assigns.user_id
-    data = Map.delete(data, "value")
     IO.inspect(HiveManager.move(hive_manager, user_id, data))
     IO.inspect(HiveManager.get_state(hive_manager))
     {:noreply, socket}
