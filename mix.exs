@@ -41,6 +41,7 @@ defmodule Hexcall.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:live_debugger, "~> 0.1.7", only: :dev},
       {:tidewave, "~> 0.1", only: :dev},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
 
       # ecto
       {:ecto_sql, "~> 3.10"},
