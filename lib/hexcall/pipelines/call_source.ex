@@ -18,7 +18,7 @@ defmodule Hexcall.CallSource do
 
   @impl true
   def handle_init(_ctx, opts) do
-    HexcallWeb.Endpoint.subscribe(opts.hivename)
+    HexcallWeb.Endpoint.subscribe("audio:" <> opts.hivename)
     {[], %{buffered: []}}
   end
 

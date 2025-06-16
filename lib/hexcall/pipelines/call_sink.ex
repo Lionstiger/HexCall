@@ -20,7 +20,7 @@ defmodule Hexcall.CallSink do
 
   @impl true
   def handle_buffer(:input, buffer, _ctx, state) do
-    HexcallWeb.Endpoint.broadcast(state.hivename, "buffer", buffer)
+    HexcallWeb.Endpoint.broadcast("audio:" <> state.hivename, "buffer", buffer)
     {[], state}
   end
 end
