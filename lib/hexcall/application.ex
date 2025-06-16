@@ -12,7 +12,9 @@ defmodule Hexcall.Application do
       Hexcall.Repo,
       {DNSCluster, query: Application.get_env(:hexcall, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Hexcall.PubSub},
-      {PartitionSupervisor, child_spec: DynamicSupervisor, name: Hexcall.DynamicSupervisors},
+      # {DynamicSupervisor, name: Hexcall.HiveManagerPresence, strategy: :one_for_one},
+      # {PartitionSupervisor, child_spec: DynamicSupervisor, name: Hexcall.DynamicSupervisors},
+      Hexcall.HiveManagerPresence,
       # Start the Finch HTTP client for sending emails
       {Finch, name: Hexcall.Finch},
       # Start a worker by calling: Hexcall.Worker.start_link(arg)
