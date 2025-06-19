@@ -33,6 +33,22 @@ defmodule Hexcall.Hexes do
       }
   end
 
+  def load_all_query_for_hive(hive_id) do
+    from h in Hex,
+      where: h.hive_id == ^hive_id,
+      select: %Hex{
+        id: h.id,
+        q: h.q,
+        r: h.r,
+        # s: fragment("-? - ?", h.q, h.r),
+        type: h.type
+      }
+  end
+
+  def load_hexes_for_hive(hivename) do
+    Repo.all(load_all_query_for_hive(hivename))
+  end
+
   @doc """
   Creates a Hex.
 

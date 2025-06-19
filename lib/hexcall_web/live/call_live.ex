@@ -1,4 +1,5 @@
 defmodule HexcallWeb.CallLive do
+  alias Hexcall.Hexes
   use HexcallWeb, :live_view
   require Logger
 
@@ -8,7 +9,10 @@ defmodule HexcallWeb.CallLive do
 
   @impl true
   def mount(%{"hive" => hivename}, _session, socket) do
-    hive = Hives.get_hive_by_name_with_hexes(hivename)
+    # hive = Hives.get_hive_by_name_with_hexes(hivename)
+    hive = Hives.get_hive_by_name(hivename)
+    hexes = Hexes.load_hexes_for_hive(hive.id)
+    # IO.inspect(hexes)
 
     # This needs to be replaced when Auth is added
     user_id = Ecto.UUID.generate()
@@ -49,6 +53,7 @@ defmodule HexcallWeb.CallLive do
        socket
        |> assign(:user_id, user_id)
        |> assign(:hive_name, hivename)
+       |> assign(:hexes, hexes)
        |> assign(:hive, hive), layout: false}
     end
   end
