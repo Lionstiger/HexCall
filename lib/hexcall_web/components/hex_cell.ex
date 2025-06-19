@@ -55,12 +55,6 @@ defmodule HexcallWeb.Components.HexCell do
       >
         <%= for hex <- @hexes do %>
           <.element
-            type={hex.type}
-            row={hex.r}
-            col={calculate_col(hex.q, hex.r)}
-            r={hex.r}
-            q={hex.q}
-            s={-hex.q - hex.r}
             x={
               if rem(hex.r, 2) != 0,
                 do:
@@ -68,6 +62,7 @@ defmodule HexcallWeb.Components.HexCell do
                 else: calculate_col(hex.q, hex.r) * @hex_horizontal_spacing
             }
             y={hex.r * @hex_vertical_spacing}
+            hex={hex}
           />
         <% end %>
       </div>
@@ -75,27 +70,16 @@ defmodule HexcallWeb.Components.HexCell do
     """
   end
 
+  attr :hex, :list, required: true
   attr :x, :float, required: true
   attr :y, :float, required: true
-
-  attr :col, :integer, required: true
-  attr :row, :integer, required: true
-
-  attr :q, :integer, required: true
-  attr :r, :integer, required: true
-  attr :s, :integer, required: true
-
-  attr :type, :atom, required: true
-
   attr :hex_height, :float, default: @hex_height
   attr :hex_width, :float, default: @hex_width
-  attr :class, :string, default: nil
-  attr :rest, :global, include: ~w(disabled form name value)
 
   def element(assigns) do
     ~H"""
     <div
-      id={"hex."<> Integer.to_string(@q) <>"."<> Integer.to_string(@r)<>"."<> Integer.to_string(@s)}
+      id={"hex.#{@hex.q}.#{@hex.r}.#{@hex.s}"}
       phx-hook="HexCell"
       style={"clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
               left: #{@x}px;
@@ -106,24 +90,22 @@ defmodule HexcallWeb.Components.HexCell do
       class={
         [
           "absolute transition-colors duration-200 flex justify-center items-center h-screen select-none",
-          case @type do
+          case @hex.type do
             # :basic -> "bg-#{Enum.random(["red", "blue", "green"])}-500"
             :basic -> "bg-green-500"
             :group -> "bg-white"
             :meeting -> "bg-white"
             :disabled -> "bg-black"
           end,
-          "hover:bg-zinc-700",
-          @class
+          "hover:bg-zinc-700"
         ]
       }
       x-on:mousedown="isClickPossible = true"
       x-on:mousemove="isClickPossible = false"
       x-bind:phx-click="isClickPossible ? 'click' : ''"
-      phx-value-r={@r}
-      phx-value-q={@q}
-      phx-value-s={@s}
-      {@rest}
+      phx-value-q={@hex.q}
+      phx-value-r={@hex.r}
+      phx-value-s={@hex.s}
     />
     """
   end

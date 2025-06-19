@@ -40,7 +40,7 @@ defmodule Hexcall.Hexes do
         id: h.id,
         q: h.q,
         r: h.r,
-        # s: fragment("-? - ?", h.q, h.r),
+        s: fragment("-? - ?", h.q, h.r),
         type: h.type
       }
   end
