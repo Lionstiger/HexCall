@@ -4,6 +4,8 @@
   }
 </style>
 
+<.flash_group flash={@flash} />
+
 <%!-- <h3>Captured stream preview</h3> --%>
 <Capture.live_render socket={@socket} capture_id="mediaCapture" />
 <%!-- <h3>Stream sent by the server</h3> --%>

@@ -49,7 +49,7 @@ defmodule HexcallWeb.CallLive do
        socket
        |> assign(:user_id, user_id)
        |> assign(:hive_name, hivename)
-       |> assign(:hive, hive)}
+       |> assign(:hive, hive), layout: false}
     end
   end
 
