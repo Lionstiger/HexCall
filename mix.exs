@@ -42,6 +42,7 @@ defmodule Hexcall.MixProject do
       {:live_debugger, "~> 0.1.7", only: :dev},
       {:tidewave, "~> 0.1", only: :dev},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:flame_on, git: "https://github.com/DockYard/flame_on", only: :dev},
 
       # ecto
       {:ecto_sql, "~> 3.10"},

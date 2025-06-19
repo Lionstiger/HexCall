@@ -58,7 +58,12 @@ defmodule HexcallWeb.Router do
     scope "/dev" do
       pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: HexcallWeb.Telemetry
+      live_dashboard "/dashboard",
+        metrics: HexcallWeb.Telemetry,
+        additional_pages: [
+          flame_on: FlameOn.DashboardPage
+        ]
+
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
