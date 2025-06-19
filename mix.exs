@@ -47,6 +47,7 @@ defmodule Hexcall.MixProject do
       # ecto
       {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},
+      {:ecto_psql_extras, "~> 0.8.8"},
 
       # js
       {:floki, ">= 0.30.0", only: :test},
