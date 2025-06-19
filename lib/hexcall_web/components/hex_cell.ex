@@ -81,8 +81,8 @@ defmodule HexcallWeb.Components.HexCell do
   attr :col, :integer, required: true
   attr :row, :integer, required: true
 
-  attr :r, :integer, required: true
   attr :q, :integer, required: true
+  attr :r, :integer, required: true
   attr :s, :integer, required: true
 
   attr :type, :atom, required: true
