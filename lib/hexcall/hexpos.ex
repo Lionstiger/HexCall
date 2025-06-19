@@ -22,3 +22,9 @@ defmodule Hexcall.HexPos do
     map
   end
 end
+
+defimpl String.Chars, for: Hexcall.HexPos do
+  def to_string(%Hexcall.HexPos{q: q, r: r, s: s}) do
+    "hex.#{Integer.to_string(q)}.#{Integer.to_string(r)}.#{Integer.to_string(s)}"
+  end
+end
