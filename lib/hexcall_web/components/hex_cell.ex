@@ -95,24 +95,28 @@ defmodule HexcallWeb.Components.HexCell do
   def element(assigns) do
     ~H"""
     <div
-      id={"hex-"<> Integer.to_string(@col) <>"-"<> Integer.to_string(@row)}
+      id={"hex."<> Integer.to_string(@q) <>"."<> Integer.to_string(@r)<>"."<> Integer.to_string(@s)}
+      phx-hook="HexCell"
       style={"clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
               left: #{@x}px;
               top: #{@y}px;
               width: #{@hex_width}px;
               height: #{@hex_height}px;"
               }
-      class={[
-        "absolute transition-colors duration-200",
-        case @type do
-          :basic -> "bg-#{Enum.random(["red", "blue", "green"])}-500"
-          :group -> "bg-white"
-          :meeting -> "bg-white"
-          :disabled -> "bg-black"
-        end,
-        "hover:bg-zinc-700",
-        @class
-      ]}
+      class={
+        [
+          "absolute transition-colors duration-200 flex justify-center items-center h-screen select-none",
+          case @type do
+            # :basic -> "bg-#{Enum.random(["red", "blue", "green"])}-500"
+            :basic -> "bg-green-500"
+            :group -> "bg-white"
+            :meeting -> "bg-white"
+            :disabled -> "bg-black"
+          end,
+          "hover:bg-zinc-700",
+          @class
+        ]
+      }
       x-on:mousedown="isClickPossible = true"
       x-on:mousemove="isClickPossible = false"
       x-bind:phx-click="isClickPossible ? 'click' : ''"

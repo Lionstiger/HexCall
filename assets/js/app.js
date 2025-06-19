@@ -22,7 +22,7 @@ import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 // import VoiceControl from "./hooks/audio_connection"
-// import HexPosition from "./hooks/position_update";
+import { update_hexcell } from "./hooks/hexcell_update";
 import { createCaptureHook } from "./hooks/capture";
 import { createPlayerHook } from "./hooks/player";
 import { hexGridData } from "./hexgrid";
@@ -42,7 +42,7 @@ window.Alpine = Alpine;
 const iceServers = []; //Use this for local Peering
 Hooks.Capture = createCaptureHook(iceServers);
 Hooks.Player = createPlayerHook(iceServers);
-// Hooks.HexCell = createHexHook();
+Hooks.HexCell = update_hexcell();
 // Hooks.VoiceControl= VoiceControl;
 
 let csrfToken = document

@@ -9,27 +9,19 @@ defmodule Hexcall.HiveManagerPresence do
   # list users
   #
   def list_positions(hivename) do
-    list(hivename) |> Enum.map(fn {_id, presence} -> presence end)
+    # list(hivename) |> Enum.map(fn {_id, presence} -> presence end)
+    for {_user_id, presence} <- list(hivename) do
+      msg = {__MODULE__, {:join, presence}}
+      Phoenix.PubSub.local_broadcast(Hexcall.PubSub, "proxy:#{hivename}", msg)
+    end
+
+    {:ok}
   end
 
   def track_user(pid, hivename, user_id) do
     track(pid, hivename, user_id, %{id: user_id, pos: %{q: -1, r: -1, s: -1}})
   end
 
-  # @impl true
-  # def handle_call({:move, user_id, new_position}, _from, state) do
-  #   if map.has_key?(state, new_position) do
-  #     {:reply, {:error, "position taken"}, state}
-  #   else
-  #     new_state =
-  #       state
-  #       |> Map.reject(fn {_key, value} -> value == user_id end)
-  #       |> Map.put(new_position, user_id)
-
-  #     # Send updates here
-  #     {:reply, :ok, new_state}
-  #   end
-  # end
   def subscribe(topic), do: Phoenix.PubSub.subscribe(Hexcall.PubSub, "proxy:" <> topic)
 
   def move(pid, hive_name, user_id, new_position) do
@@ -55,14 +47,13 @@ defmodule Hexcall.HiveManagerPresence do
 
   def fetch(_topic, presences) do
     for {key, %{metas: [meta | metas]}} <- presences, into: %{} do
-      {key, %{metas: [meta | metas], id: meta.id, user: %{name: meta.id}}}
+      {key, %{metas: [meta | metas], id: meta.id, user: %{name: meta.id}, pos: meta.pos}}
     end
   end
 
   def handle_metas(topic, %{joins: joins, leaves: leaves}, presences, state) do
     for {user_id, presence} <- joins do
-      user_data = %{id: user_id, user: presence.user, metas: Map.fetch!(presences, user_id)}
-      msg = {__MODULE__, {:join, user_data}}
+      msg = {__MODULE__, {:join, presence}}
       Phoenix.PubSub.local_broadcast(Hexcall.PubSub, "proxy:#{topic}", msg)
     end
 
@@ -74,7 +65,7 @@ defmodule Hexcall.HiveManagerPresence do
         end
 
       user_data = %{id: user_id, user: presence.user, metas: metas}
-      msg = {__MODULE__, {:leave, user_data}}
+      msg = {__MODULE__, {:leave, presence}}
       Phoenix.PubSub.local_broadcast(Hexcall.PubSub, "proxy:#{topic}", msg)
     end
 

@@ -8,7 +8,6 @@ defmodule HexcallWeb.CallLive do
 
   @impl true
   def mount(%{"hive" => hivename}, _session, socket) do
-    socket = stream(socket, :presences, [])
     hive = Hives.get_hive_by_name_with_hexes(hivename)
 
     # This needs to be replaced when Auth is added
@@ -21,7 +20,7 @@ defmodule HexcallWeb.CallLive do
         if connected?(socket) do
           HiveManagerPresence.track_user(socket.root_pid, hivename, user_id)
           HiveManagerPresence.subscribe(hivename)
-          stream(socket, :presences, HiveManagerPresence.list_positions(hivename))
+          HiveManagerPresence.list_positions(hivename)
 
           ingress_signaling = Membrane.WebRTC.Signaling.new()
           egress_signaling = Membrane.WebRTC.Signaling.new()
@@ -48,12 +47,13 @@ defmodule HexcallWeb.CallLive do
 
       {:ok,
        socket
-       # |> stream(socket, :presences, HiveManagerPresence.list_positions(hivename))
        |> assign(:user_id, user_id)
        |> assign(:hive_name, hivename)
        |> assign(:hive, hive)}
     end
   end
+
+  # Presence Logic
 
   @impl true
   def handle_event("click", data, socket) do
@@ -70,16 +70,23 @@ defmodule HexcallWeb.CallLive do
     end
   end
 
+  @impl true
   def handle_info({HiveManagerPresence, {:join, presence}}, socket) do
-    {:noreply, stream_insert(socket, :presences, presence)}
+    hex_name = to_string(HexPos.new(presence.pos))
+    {:noreply, push_event(socket, "update_hex@" <> hex_name, %{user: presence.user})}
+    # {:noreply, stream_insert(socket, :presences, presence)}
   end
 
+  @impl true
   def handle_info({HiveManagerPresence, {:leave, presence}}, socket) do
-    if presence.metas == [] do
-      {:noreply, stream_delete(socket, :presences, presence)}
-    else
-      {:noreply, stream_insert(socket, :presences, presence)}
-    end
+    hex_name = to_string(HexPos.new(presence.pos))
+    {:noreply, push_event(socket, "clear_hex@" <> hex_name, %{})}
+
+    # if presence.metas == [] do
+    # {:noreply, stream_delete(socket, :presences, presence)}
+    # else
+    # {:noreply, stream_insert(socket, :presences, presence)}
+    # end
   end
 
   # TODO: Setup receiving streams from other. Somehow merge all incoming audio into single output
