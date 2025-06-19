@@ -154,12 +154,17 @@ export function hexGridData() {
     startPanning(event) {
       // Handle if we pan somewhere else and do nothing (for now)
       if (event.target !== this.$el && event.target !== this.$refs.grid) {
+        // Potentially return or handle differently if needed
       }
+
+      // Use touch coordinates if available, otherwise mouse coordinates
+      const currentX = event.touches ? event.touches[0].clientX : event.clientX;
+      const currentY = event.touches ? event.touches[0].clientY : event.clientY;
 
       // Set isPanning and set intial panning values
       this.isPanning = true;
-      this.startX = event.clientX;
-      this.startY = event.clientY;
+      this.startX = currentX;
+      this.startY = currentY;
       this.panInitialScrollLeft = this.$el.scrollLeft;
       this.panInitialScrollTop = this.$el.scrollTop;
     },
@@ -181,8 +186,12 @@ export function hexGridData() {
         return;
       }
 
-      const delta_x = event.clientX - this.startX;
-      const delta_y = event.clientY - this.startY;
+      // Use touch coordinates if available, otherwise mouse coordinates
+      const currentX = event.touches ? event.touches[0].clientX : event.clientX;
+      const currentY = event.touches ? event.touches[0].clientY : event.clientY;
+
+      const delta_x = currentX - this.startX;
+      const delta_y = currentY - this.startY;
       let newScrollLeft = this.panInitialScrollLeft - delta_x;
       let newScrollTop = this.panInitialScrollTop - delta_y;
 
