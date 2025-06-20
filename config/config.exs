@@ -64,6 +64,9 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# this is required for the docker image to start
+config :bundlex, :disable_precompiled_os_deps, apps: [:ex_libsrtp]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
