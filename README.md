@@ -1,18 +1,53 @@
 # Hexcall
 
-To start your Phoenix server:
+TODO
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+# Dev
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## Local Dev
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
-## Learn more
+Set SECRET_KEY_BASE first:
+```bash
+export SECRET_KEY_BASE=$(mix phx.gen.secret)
+```
+Start a local postgres instance:
+```bash
+docker run --name postgres \
+--detach \
+--publish 5432:5432 \
+-e POSTGRES_HOST_AUTH_METHOD=trust \
+--mount type=tmpfs,destination=/tmp/postgresql/data \
+postgres
+```
+Run server with 
+```bash
+mix phx.server
+```
+or inside IEx with 
+```bash
+iex -S mix phx.server
+```
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+## Docker
+
+Build with: 
+```bash
+docker build .
+```
+Run (adjust env as needed):
+```bash
+docker run --rm \
+--network="host" \
+-e PHX_HOST=localhost \
+-e DATABASE_URL="ecto://postgres:postgres@localhost/hexcall_dev" \
+-e SECRET_KEY_BASE=TiBFjhsHAWALNyNKhuVd7fMJ+ARH13hQzGRv3+wWsq/XCICB2YhmvajzJjAaqDRo \
+hexcall
+```
+
+## Docker Compose
+
+Adjust `.env`, then:
+```bash
+docker compose up
+```
