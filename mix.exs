@@ -74,11 +74,11 @@ defmodule Hexcall.MixProject do
       {:membrane_webrtc_plugin, "~> 0.25.3"},
       {:membrane_file_plugin, "~> 0.17"},
       {:membrane_realtimer_plugin, "~> 0.9"},
-      {:membrane_matroska_plugin, "~> 0.6"},
       {:membrane_opus_plugin, "~> 0.20"},
       {:membrane_tee_plugin, "~> 0.12.0"},
       {:membrane_funnel_plugin, "~> 0.9.2"},
-      {:membrane_portaudio_plugin, "~> 0.19.2"}
+      {:membrane_matroska_plugin, "~> 0.6", only: :dev},
+      {:membrane_portaudio_plugin, "~> 0.19.2", only: :dev}
     ]
   end
 
