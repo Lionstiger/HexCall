@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    # ports:
+    # - "5432:5432" 
+
+  web:
+    build: .
+    image: hexcall
+    command: /app/bin/server
+    ports:
+      - "4000:4000"
+    links:
+      - db
+    depends_on:
+      - migration
+    environment:
+      PHX_HOST: ${PHX_HOST} 
+      DATABASE_URL: ecto://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE} 
+
+  migration:
+    build: .
+    image: hexcall 
+    command: /app/bin/migrate
+    links:
+      - db
+    depends_on:
+      - db
+    environment:
+      PHX_HOST: ${PHX_HOST} 
+      DATABASE_URL: ecto://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE} 
+      
+volumes:
+  db_data:
