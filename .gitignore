@@ -40,3 +40,4 @@ npm-debug.log
 
 # Continue Stuff
 .continue/
+config/.env.exs
