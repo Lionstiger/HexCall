@@ -7,11 +7,6 @@
 # General application configuration
 import Config
 
-# This imports the .env.exs file if it exists
-if config_env() in [:dev, :test] do
-  import_config ".env.exs"
-end
-
 config :hexcall,
   ecto_repos: [Hexcall.Repo],
   generators: [
