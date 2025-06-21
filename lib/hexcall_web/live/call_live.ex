@@ -93,6 +93,4 @@ defmodule HexcallWeb.CallLive do
     # end
   end
 
-  # TODO: Setup receiving streams from other. Somehow merge all incoming audio into single output
-  # TODO: Push this stream back down to client via webrtc
 end

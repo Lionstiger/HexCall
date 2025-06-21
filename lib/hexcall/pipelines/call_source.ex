@@ -18,6 +18,8 @@ defmodule Hexcall.CallSource do
 
   @impl true
   def handle_init(_ctx, opts) do
+    # TODO subscribe to neighbor channels, not in this function to be updateable on move. maybe a generic channel?
+    # Design funneling multiple input together
     HexcallWeb.Endpoint.subscribe("audio:" <> opts.hivename)
     {[], %{buffered: []}}
   end

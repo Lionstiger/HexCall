@@ -20,6 +20,7 @@ defmodule Hexcall.CallSink do
 
   @impl true
   def handle_buffer(:input, buffer, _ctx, state) do
+    # TODO send data to neighbors here, not just to the hive
     HexcallWeb.Endpoint.broadcast("audio:" <> state.hivename, "buffer", buffer)
     {[], state}
   end
