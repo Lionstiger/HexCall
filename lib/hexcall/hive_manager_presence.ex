@@ -5,11 +5,7 @@ defmodule Hexcall.HiveManagerPresence do
     otp_app: :hexcall,
     pubsub_server: Hexcall.PubSub
 
-  # TODO build functions here for:
-  # list users
-  #
   def list_positions(hivename) do
-    # list(hivename) |> Enum.map(fn {_id, presence} -> presence end)
     for {_user_id, presence} <- list(hivename) do
       msg = {__MODULE__, {:join, presence}}
       Phoenix.PubSub.local_broadcast(Hexcall.PubSub, "proxy:#{hivename}", msg)
@@ -64,7 +60,7 @@ defmodule Hexcall.HiveManagerPresence do
           :error -> []
         end
 
-      user_data = %{id: user_id, user: presence.user, metas: metas}
+      # user_data = %{id: user_id, user: presence.user, metas: metas}
       msg = {__MODULE__, {:leave, presence}}
       Phoenix.PubSub.local_broadcast(Hexcall.PubSub, "proxy:#{topic}", msg)
     end
