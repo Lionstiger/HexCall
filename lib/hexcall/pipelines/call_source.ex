@@ -1,4 +1,5 @@
 defmodule Hexcall.CallSource do
+  alias Hexcall.HexPos
   alias Membrane.Opus
   use Membrane.Source
 
@@ -13,15 +14,17 @@ defmodule Hexcall.CallSource do
     hivename: [
       description: "Name of the Hive we subscribe to, to receive buffers from",
       spec: String.t()
+    ],
+    position: [
+      description: "Current Position to listen at",
+      spec: HexPos
     ]
   )
 
   @impl true
   def handle_init(_ctx, opts) do
-    # TODO subscribe to neighbor channels, not in this function to be updateable on move. maybe a generic channel?
     # Design funneling multiple input together
-    HexcallWeb.Endpoint.subscribe("audio:" <> opts.hivename)
-    {[], %{buffered: []}}
+    {[], %{buffered: [], hivename: opts.hivename, position: opts.position}}
   end
 
   @impl true
@@ -56,6 +59,13 @@ defmodule Hexcall.CallSource do
   def handle_terminate_request(_context, state) do
     HexcallWeb.Endpoint.unsubscribe(state.hivename)
     {[], state}
+  end
+
+  @impl true
+  def handle_parent_notification({:update_position, new_position}, _context, state) do
+    HexcallWeb.Endpoint.unsubscribe("audio:#{state.hivename}:#{state.position}")
+    HexcallWeb.Endpoint.subscribe("audio:#{state.hivename}:#{new_position}")
+    {[], state |> Map.put(:position, new_position)}
   end
 
   defp send_buffers(state) do

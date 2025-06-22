@@ -28,11 +28,13 @@ defmodule HexcallWeb.CallLive do
           ingress_signaling = Membrane.WebRTC.Signaling.new()
           egress_signaling = Membrane.WebRTC.Signaling.new()
 
-          Membrane.Pipeline.start_link(Hexcall.CallPipeline,
-            ingress_signaling: ingress_signaling,
-            egress_signaling: egress_signaling,
-            hivename: hivename
-          )
+          {:ok, _, pid} =
+            Membrane.Pipeline.start_link(Hexcall.CallPipeline,
+              ingress_signaling: ingress_signaling,
+              egress_signaling: egress_signaling,
+              hivename: hivename,
+              start_position: HexPos.new(-1, -1, -1)
+            )
 
           socket
           |> Capture.attach(
@@ -44,6 +46,7 @@ defmodule HexcallWeb.CallLive do
             signaling: egress_signaling
           )
           |> assign(:position, %HexPos{q: -1, r: -1, s: -1})
+          |> assign(:pipeline, pid)
         else
           socket
         end
@@ -67,6 +70,9 @@ defmodule HexcallWeb.CallLive do
 
     case HiveManagerPresence.move(socket.root_pid, hivename, user_id, new_position) do
       {:ok, new_pos = %HexPos{}} ->
+        # update pipeline here
+        Membrane.Pipeline.call(socket.assigns.pipeline, {:new_position, new_pos})
+
         {:noreply, socket |> assign(:position, new_pos)}
 
       {:error, "position taken"} ->
@@ -92,5 +98,4 @@ defmodule HexcallWeb.CallLive do
     # {:noreply, stream_insert(socket, :presences, presence)}
     # end
   end
-
 end

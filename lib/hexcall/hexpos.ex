@@ -13,13 +13,41 @@ defmodule Hexcall.HexPos do
     end
   end
 
+  def new(%HexPos{} = map) do
+    map
+  end
+
   def new(%{:q => q, :r => r, :s => s} = _map)
       when is_integer(q) and is_integer(r) and is_integer(s) do
     %HexPos{q: q, r: r, s: s}
   end
 
-  def new(%HexPos{} = map) do
-    map
+  def new(q, r, s) when is_integer(q) and is_integer(r) and is_integer(s) do
+    %HexPos{q: q, r: r, s: s}
+  end
+
+  def get_neighbors(%HexPos{} = hex) do
+    Enum.map(0..5, fn x -> neighbour(hex, x) end)
+  end
+
+  defp neighbour(hex, dir) do
+    add(hex, direction(dir))
+  end
+
+  defp add(first, second) do
+    HexPos.new(first.q + second.q, first.r + second.r, first.s + second.s)
+  end
+
+  defp direction(dir) do
+    case dir do
+      0 -> HexPos.new(+1, -1, 0)
+      1 -> HexPos.new(+1, 0, -1)
+      2 -> HexPos.new(0, +1, -1)
+      3 -> HexPos.new(-1, +1, 0)
+      4 -> HexPos.new(-1, 0, +1)
+      5 -> HexPos.new(0, -1, +1)
+      _ -> :error
+    end
   end
 end
 
