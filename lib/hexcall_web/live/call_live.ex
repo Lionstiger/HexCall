@@ -29,7 +29,7 @@ defmodule HexcallWeb.CallLive do
           egress_signaling = Membrane.WebRTC.Signaling.new()
 
           {:ok, _, pid} =
-            Membrane.Pipeline.start_link(Hexcall.CallPipeline,
+            Membrane.Pipeline.start_link(Hexcall.Pipelines.CallPipeline,
               ingress_signaling: ingress_signaling,
               egress_signaling: egress_signaling,
               hivename: hivename,

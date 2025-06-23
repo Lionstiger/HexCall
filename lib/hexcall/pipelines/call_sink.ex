@@ -1,4 +1,4 @@
-defmodule Hexcall.CallSink do
+defmodule Hexcall.Pipelines.CallSink do
   use Membrane.Sink
 
   def_input_pad(:input,

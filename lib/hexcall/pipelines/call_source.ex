@@ -1,4 +1,4 @@
-defmodule Hexcall.CallSource do
+defmodule Hexcall.Pipelines.CallSource do
   alias Hexcall.HexPos
   alias Membrane.Opus
   use Membrane.Source

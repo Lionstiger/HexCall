@@ -1,9 +1,9 @@
-defmodule Hexcall.CallPipeline do
+defmodule Hexcall.Pipelines.CallPipeline do
   alias Hexcall.HexPos
   use Membrane.Pipeline
   # alias Membrane.{Tee, Funnel, PortAudio}
-  alias Hexcall.CallSource
-  alias Hexcall.CallSink
+  alias Hexcall.Pipelines.CallSource
+  alias Hexcall.Pipelines.CallSink
 
   @impl true
   def handle_init(_ctx, opts) do
