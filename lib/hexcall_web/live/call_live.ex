@@ -60,6 +60,14 @@ defmodule HexcallWeb.CallLive do
     end
   end
 
+  @impl true
+  def handle_event("webrtc_signaling", unsigned_params, socket) do 
+    # TODO investigate why this signal gets send to the main liveview.
+    # Seems to firefox only.
+    Logger.warning("weird webrtc signal to check later")
+    {:noreply, socket}
+  end
+
   # Presence Logic
 
   @impl true
