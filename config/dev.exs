@@ -97,3 +97,16 @@ config :phoenix_live_view,
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+# Membrane Debugging
+config :membrane_core,
+  unsafely_name_processes_for_observer: [:components],
+  telemetry_flags: [
+    tracked_callbacks: [
+      bin: :all,
+      element: :all,
+      pipeline: :all
+    ]
+  ]
+
+config :membrane_telemetry_metrics, enabled: true
