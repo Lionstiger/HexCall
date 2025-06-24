@@ -70,13 +70,15 @@ defmodule Hexcall.MixProject do
       {:bandit, "~> 1.2"},
 
       # Membrane Plugins
-      {:membrane_core, "~> 1.1"},
-      {:membrane_webrtc_plugin, "~> 0.25.3"},
-      {:membrane_file_plugin, "~> 0.17"},
-      {:membrane_realtimer_plugin, "~> 0.9"},
+      {:membrane_core, "~> 1.2"},
+      {:membrane_webrtc_plugin, "~> 0.25"},
       {:membrane_opus_plugin, "~> 0.20"},
       {:membrane_tee_plugin, "~> 0.12.0"},
       {:membrane_funnel_plugin, "~> 0.9.2"},
+      {:membrane_audio_mix_plugin, "~> 0.16.2"},
+      {:membrane_raw_audio_parser_plugin, "~> 0.4.0"},
+      {:membrane_file_plugin, "~> 0.17", only: :dev},
+      {:membrane_fake_plugin, "~> 0.11.0", only: :dev},
       {:membrane_matroska_plugin, "~> 0.6", only: :dev},
       {:membrane_portaudio_plugin, "~> 0.19.2", only: :dev}
     ]
