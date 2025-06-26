@@ -46,6 +46,14 @@ defmodule Hexcall.Pipelines.CallPipeline do
   end
 end
 
+# Debug Filter to view data as it flows through the pipeline:
+# |> child(%Membrane.Debug.Filter{
+#   handle_buffer: fn buffer ->
+#     IO.puts("#{System.os_time(:millisecond)}")
+#     IO.inspect(buffer, label: "after mixer:")
+#   end
+# })
+
 # Safety local:
 # child(:webrtc_source, %Membrane.WebRTC.Source{signaling: opts[:ingress_signaling]})
 # |> via_out(:output, options: [kind: :audio])
