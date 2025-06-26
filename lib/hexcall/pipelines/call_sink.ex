@@ -11,29 +11,26 @@ defmodule Hexcall.Pipelines.CallSink do
       description: "Name of the Hive we send buffers to",
       spec: String.t()
     ],
-    listeners: [
-      description: "List of positions to send audio to",
-      spec: List.t()
+    position: [
+      description: "Current Position to send buffers to",
+      spec: HexPos
     ]
   )
 
   @impl true
   def handle_init(_ctx, opts) do
-    {[], %{hivename: opts.hivename, listeners: opts.listeners}}
+    {[], %{hivename: opts.hivename, position: opts.position}}
   end
 
   @impl true
   def handle_buffer(:input, buffer, _ctx, state) do
-    # TODO send data to neighbors here, not just to the hive
-    for hex <- state.listeners do
-      HexcallWeb.Endpoint.broadcast("audio:#{state.hivename}:#{hex}", "buffer", buffer)
-    end
+    HexcallWeb.Endpoint.broadcast("audio:#{state.hivename}:#{state.position}", "buffer", buffer)
 
     {[], state}
   end
 
   @impl true
-  def handle_parent_notification({:update_listeners, new_listeners}, _context, state) do
-    {[], state |> Map.put(:listeners, new_listeners)}
+  def handle_parent_notification({:update_position, new_position}, _context, state) do
+    {[], state |> Map.put(:position, new_position)}
   end
 end

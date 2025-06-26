@@ -1,9 +1,7 @@
 defmodule Hexcall.Pipelines.CallPipeline do
+  alias Hexcall.Pipelines.{CallSink, CallMixingBin}
   alias Hexcall.HexPos
   use Membrane.Pipeline
-  # alias Membrane.{Tee, Funnel, PortAudio}
-  alias Hexcall.Pipelines.CallSource
-  alias Hexcall.Pipelines.CallSink
 
   @impl true
   def handle_init(_ctx, opts) do
@@ -13,15 +11,13 @@ defmodule Hexcall.Pipelines.CallPipeline do
       #
       child(:webrtc_source, %Membrane.WebRTC.Source{signaling: opts[:ingress_signaling]})
       |> via_out(:output, options: [kind: :audio])
-      |> child(:call_sink, %CallSink{hivename: opts[:hivename], listeners: []}),
+      |> child(:call_sink, %CallSink{hivename: opts[:hivename], position: opts[:start_position]}),
       #
       # Receiving Audio to output
       #
-      child(:call_source, %CallSource{hivename: opts[:hivename], position: opts[:start_position]})
-      |> child(:parse, %Membrane.Opus.Parser{
-        delimitation: :keep,
-        # This doesnt matter for now
-        generate_best_effort_timestamps?: false
+      child(:call_mixing_bin, %CallMixingBin{
+        hivename: opts[:hivename],
+        position: opts[:start_position]
       })
       |> via_in(:input, options: [kind: :audio])
       |> child(:webrtc_sink, %Membrane.WebRTC.Sink{
@@ -36,12 +32,11 @@ defmodule Hexcall.Pipelines.CallPipeline do
   @impl true
   def handle_call({:new_position, %HexPos{} = new_position}, _ctx, state) do
     # TODO change this later to account for meetings and set hexes.
-    new_listeners = HexPos.get_neighbors(new_position)
 
     {[
        {:reply, :ok},
-       {:notify_child, {:call_source, {:update_position, new_position}}},
-       {:notify_child, {:call_sink, {:update_listeners, new_listeners}}}
+       {:notify_child, {:call_mixing_bin, {:update_position, new_position}}},
+       {:notify_child, {:call_sink, {:update_position, new_position}}}
      ], state}
   end
 end
