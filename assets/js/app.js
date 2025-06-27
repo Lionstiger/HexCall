@@ -38,8 +38,8 @@ Alpine.plugin(resize);
 Alpine.start();
 window.Alpine = Alpine;
 
-// const iceServers = [{ urls: "stun:stun.l.google.com:19302" }];
-const iceServers = []; //Use this for local Peering
+const iceServers = [{ urls: "stun:stun.l.google.com:19302" }];
+// const iceServers = []; //Use this for local Peering
 Hooks.Capture = createCaptureHook(iceServers);
 Hooks.Player = createPlayerHook(iceServers);
 Hooks.HexCell = update_hexcell();
