@@ -66,7 +66,7 @@ defmodule Hexcall.Pipelines.CallMixingBin do
         {:spec,
          Enum.map(hexes_to_add, fn hex ->
            child({:source_bin, "#{hex}"}, %CallSourceBin{hivename: state.hivename, position: hex})
-           |> via_in(:input, options: [live?: true])
+           |> via_in(:input, options: [offset: :live])
            |> get_child(:mixer)
          end)}
       ]
