@@ -15,8 +15,10 @@ services:
     build: .
     image: hexcall
     command: /app/bin/server
-    ports:
-      - "4000:4000"
+    network_mode: "host"
+    # ports:
+    # - "4000:4000"
+    # - "49152–65535:49152-65535"
     links:
       - db
     depends_on:
