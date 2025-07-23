@@ -40,7 +40,7 @@ metadata:
   labels:
     app: hexcall
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: hexcall
@@ -49,38 +49,41 @@ spec:
       labels:
         app: hexcall
     spec:
+      initContainers:
+        - name: migrate-db
+          image: hexcall
+          imagePullPolicy: Never
+          command: ["/app/bin/migrate"]
+          # args: ["eval", "YourApp.Release.migrate"]
+          envFrom:
+            - configMapRef:
+                name: hexcall-config
+          env:
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: hexcall-secret
+                  key: SECRET_KEY_BASE
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
       containers:
         - name: hexcall
           image: hexcall
           imagePullPolicy: Never
           ports:
             - containerPort: 4000
+          envFrom:
+            - configMapRef:
+                name: hexcall-config
           env:
-            - name: PHX_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: hexcall-config
-                  key: PHX_HOST
-            - name: PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: hexcall-config
-                  key: PORT
-            - name: DATABASE_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: hexcall-config
-                  key: DATABASE_NAME
-            - name: DATABASE_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: hexcall-config
-                  key: DATABASE_HOST
-            - name: POOL_SIZE
-              valueFrom:
-                configMapKeyRef:
-                  name: hexcall-config
-                  key: POOL_SIZE
             - name: SECRET_KEY_BASE
               valueFrom:
                 secretKeyRef:
