@@ -1,0 +1,98 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hexcall
+spec:
+  type: NodePort
+  ports:
+    - port: 4000
+      targetPort: 4000
+      nodePort: 30001 # Specify a port in the range 30000-32767
+  selector:
+    app: hexcall
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hexcall-config
+  namespace: default
+data:
+  PHX_HOST: "hexcall.net"
+  PORT: "4000"
+  DATABASE_NAME: "hexcall"
+  DATABASE_HOST: "postgres"
+  POOL_SIZE: "10"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: hexcall-secret
+  namespace: default
+type: Opaque
+stringData:
+  type: static
+  SECRET_KEY_BASE: "8i2C1ef40AaB6IYaXCWuFwjvTaKWDDPEeDehcxoSkgA3AuGyIH6VkU820HNXEywz"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hexcall-deployment
+  labels:
+    app: hexcall
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hexcall
+  template:
+    metadata:
+      labels:
+        app: hexcall
+    spec:
+      containers:
+        - name: hexcall
+          image: hexcall
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 4000
+          env:
+            - name: PHX_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: hexcall-config
+                  key: PHX_HOST
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: hexcall-config
+                  key: PORT
+            - name: DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: hexcall-config
+                  key: DATABASE_NAME
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: hexcall-config
+                  key: DATABASE_HOST
+            - name: POOL_SIZE
+              valueFrom:
+                configMapKeyRef:
+                  name: hexcall-config
+                  key: POOL_SIZE
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: hexcall-secret
+                  key: SECRET_KEY_BASE
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
