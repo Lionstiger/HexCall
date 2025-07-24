@@ -43,6 +43,7 @@ defmodule Hexcall.MixProject do
       {:tidewave, "~> 0.1", only: :dev},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:flame_on, git: "https://github.com/DockYard/flame_on", only: :dev},
+      {:libcluster, "~> 3.5"},
 
       # ecto
       {:ecto_sql, "~> 3.10"},
@@ -75,7 +76,8 @@ defmodule Hexcall.MixProject do
       {:membrane_opus_plugin, "~> 0.20"},
       {:membrane_tee_plugin, "~> 0.12.0"},
       {:membrane_funnel_plugin, "~> 0.9.2"},
-      {:membrane_audio_mix_plugin, github: "Lionstiger/membrane_audio_mix_plugin", branch: "queue_removal_update"},
+      {:membrane_audio_mix_plugin,
+       github: "Lionstiger/membrane_audio_mix_plugin", branch: "queue_removal_update"},
       # {:membrane_audio_mix_plugin, "~> 0.16.3"},
       {:membrane_raw_audio_parser_plugin, "~> 0.4.0"},
       {:membrane_file_plugin, "~> 0.17", only: :dev},
