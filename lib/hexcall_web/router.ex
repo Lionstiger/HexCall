@@ -47,24 +47,27 @@ defmodule HexcallWeb.Router do
   # end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
-  if Application.compile_env(:hexcall, :dev_routes) do
-    # If you want to use the LiveDashboard in production, you should put
-    # it behind authentication and allow only admins to access it.
-    # If your application does not have an admins-only section yet,
-    # you can use Plug.BasicAuth to set up some basic authentication
-    # as long as you are also using SSL (which you should anyway).
-    import Phoenix.LiveDashboard.Router
+  # if Application.compile_env(:hexcall, :dev_routes) do
+  # TODO reenable this!!! using for development for now.
+  # If you want to use the LiveDashboard in production, you should put
+  # it behind authentication and allow only admins to access it.
+  # If your application does not have an admins-only section yet,
+  # you can use Plug.BasicAuth to set up some basic authentication
+  # as long as you are also using SSL (which you should anyway).
+  import Phoenix.LiveDashboard.Router
 
-    scope "/dev" do
-      pipe_through :browser
+  scope "/dev" do
+    pipe_through :browser
 
-      live_dashboard "/dashboard",
-        metrics: HexcallWeb.Telemetry,
-        additional_pages: [
-          flame_on: FlameOn.DashboardPage
-        ]
+    live_dashboard "/dashboard",
+      metrics: HexcallWeb.Telemetry
 
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
-    end
+    # additional_pages: [
+    #   flame_on: FlameOn.DashboardPage
+    # ]
+
+    forward "/mailbox", Plug.Swoosh.MailboxPreview
   end
+
+  # end
 end

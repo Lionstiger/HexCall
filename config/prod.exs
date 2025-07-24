@@ -7,6 +7,21 @@ import Config
 # before starting your production server.
 config :hexcall, HexcallWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
 
+# Config for libcluster
+config :libcluster,
+  topologies: [
+    erlang_nodes_in_k8s: [
+      strategy: Elixir.Cluster.Strategy.Kubernetes,
+      config: [
+        mode: :ip,
+        kubernetes_node_basename: "hexcall",
+        kubernetes_selector: "app=hexcall",
+        kubernetes_namespace: "default",
+        polling_interval: 5_000
+      ]
+    ]
+  ]
+
 # Configures Swoosh API Client
 config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: Hexcall.Finch
 

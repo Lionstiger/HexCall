@@ -7,21 +7,30 @@ defmodule Hexcall.Application do
 
   @impl true
   def start(_type, _args) do
-    children = [
-      HexcallWeb.Telemetry,
-      Hexcall.Repo,
-      {DNSCluster, query: Application.get_env(:hexcall, :dns_cluster_query) || :ignore},
-      {Phoenix.PubSub, name: Hexcall.PubSub},
-      # {DynamicSupervisor, name: Hexcall.HiveManagerPresence, strategy: :one_for_one},
-      # {PartitionSupervisor, child_spec: DynamicSupervisor, name: Hexcall.DynamicSupervisors},
-      Hexcall.HiveManagerPresence,
-      # Start the Finch HTTP client for sending emails
-      {Finch, name: Hexcall.Finch},
-      # Start a worker by calling: Hexcall.Worker.start_link(arg)
-      # {Hexcall.Worker, arg},
-      # Start to serve requests, typically the last entry
-      HexcallWeb.Endpoint
-    ]
+    children =
+      [
+        HexcallWeb.Telemetry,
+        Hexcall.Repo,
+        # {DNSCluster, query: Application.get_env(:hexcall, :dns_cluster_query) || :ignore},
+
+        {Phoenix.PubSub, name: Hexcall.PubSub},
+        # {DynamicSupervisor, name: Hexcall.HiveManagerPresence, strategy: :one_for_one},
+        # {PartitionSupervisor, child_spec: DynamicSupervisor, name: Hexcall.DynamicSupervisors},
+        Hexcall.HiveManagerPresence,
+        # Start the Finch HTTP client for sending emails
+        {Finch, name: Hexcall.Finch},
+        # Start a worker by calling: Hexcall.Worker.start_link(arg)
+        # {Hexcall.Worker, arg},
+        # Start to serve requests, typically the last entry
+        HexcallWeb.Endpoint
+      ] ++
+        case Application.get_env(:libcluster, :topologies) do
+          nil ->
+            []
+
+          topologies ->
+            [{Cluster.Supervisor, [topologies, [name: Hexcall.ClusterSupervisor]]}]
+        end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

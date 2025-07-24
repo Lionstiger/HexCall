@@ -1,3 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hexcall-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: hexcall.example
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hexcall
+                port:
+                  number: 4000
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -17,7 +35,7 @@ metadata:
   name: hexcall-config
   namespace: default
 data:
-  PHX_HOST: "hexcall.net"
+  PHX_HOST: "hexcall.example"
   PORT: "4000"
   DATABASE_NAME: "hexcall"
   DATABASE_HOST: "postgres"
@@ -59,6 +77,10 @@ spec:
             - configMapRef:
                 name: hexcall-config
           env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
             - name: SECRET_KEY_BASE
               valueFrom:
                 secretKeyRef:
@@ -84,6 +106,10 @@ spec:
             - configMapRef:
                 name: hexcall-config
           env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
             - name: SECRET_KEY_BASE
               valueFrom:
                 secretKeyRef:
