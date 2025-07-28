@@ -1,6 +1,4 @@
-export function createCaptureHook(
-  iceServers = [{ urls: `stun:stun.l.google.com:19302` }],
-) {
+export function createCaptureHook(pcConfig) {
   return {
     async mounted() {
       this.handleEvent(
@@ -13,7 +11,6 @@ export function createCaptureHook(
 
           const localStream =
             await navigator.mediaDevices.getUserMedia(mediaConstraints);
-          const pcConfig = { iceServers: iceServers };
           this.pc = new RTCPeerConnection(pcConfig);
 
           this.pc.onicecandidate = (event) => {

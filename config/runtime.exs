@@ -20,14 +20,12 @@ if System.get_env("PHX_SERVER") do
   config :hexcall, HexcallWeb.Endpoint, server: true
 end
 
-if config_env() == :prod do
-  # database_url =
-  #   System.get_env("DATABASE_URL") ||
-  #     raise """
-  #     environment variable DATABASE_URL is missing.
-  #     For example: ecto://USER:PASS@HOST/DATABASE
-  #     """
+config :hexcall, Hexcall.Plugs.ICE_Config,
+  url: System.get_env("ICE_URL", "stun:stun.l.google.com:19302"),
+  username: System.get_env("ICE_USERNAME", ""),
+  password: System.get_env("ICE_PASSWORD", "")
 
+if config_env() == :prod do
   maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
 
   config :hexcall, Hexcall.Repo,

@@ -53,5 +53,6 @@ defmodule HexcallWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+  plug Hexcall.Plugs.ICE_Config
   plug HexcallWeb.Router
 end

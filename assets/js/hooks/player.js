@@ -1,7 +1,7 @@
-export function createPlayerHook(iceServers = [{ urls: `stun:stun.l.google.com:19302` }]) {
+export function createPlayerHook(pcConfig) {
   return {
     async mounted() {
-      this.pc = new RTCPeerConnection({ iceServers: iceServers });
+      this.pc = new RTCPeerConnection(pcConfig);
       this.el.srcObject = new MediaStream();
 
       this.pc.ontrack = (event) => {

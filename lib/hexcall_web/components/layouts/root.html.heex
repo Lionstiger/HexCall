@@ -8,6 +8,9 @@
       {assigns[:page_title] || "Hexcall"}
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <script>
+      window.pcConfig= <%= raw(assigns[:pc_config]) %>;
+    </script>
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
     {Application.get_env(:live_debugger, :live_debugger_tags)}

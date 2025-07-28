@@ -38,10 +38,10 @@ Alpine.plugin(resize);
 Alpine.start();
 window.Alpine = Alpine;
 
-const iceServers = [{ urls: "stun:stun.l.google.com:19302" }];
-// const iceServers = []; //Use this for local Peering
-Hooks.Capture = createCaptureHook(iceServers);
-Hooks.Player = createPlayerHook(iceServers);
+const pcConfig = window.pcConfig;
+console.log(pcConfig, (label = "Full pcConfig"));
+Hooks.Capture = createCaptureHook(pcConfig);
+Hooks.Player = createPlayerHook(pcConfig);
 Hooks.HexCell = update_hexcell();
 // Hooks.VoiceControl= VoiceControl;
 
