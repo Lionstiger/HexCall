@@ -21,11 +21,15 @@ kind: Service
 metadata:
   name: hexcall
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 4000
+      name: web
       targetPort: 4000
-      nodePort: 30001 # Specify a port in the range 30000-32767
+    - port: 30001 # This is simply a random ephemeral port. Unsure where ex_webrtc configures this
+      name: webrtc
+      targetPort: 30001
+      protocol: UDP
   selector:
     app: hexcall
 ---
@@ -38,7 +42,8 @@ data:
   PHX_HOST: "hexcall.example"
   PORT: "4000"
 
-  ICE_URL: "turn:192.168.49.2:3478?transport=udp"
+  # For minikube, use internal ip of udp-gateway, otherwise this points to a loadbalancer(possibly with dns)
+  ICE_URL: "turn:10.99.103.83:3478?transport=udp"
 
   DATABASE_NAME: "hexcall"
   DATABASE_HOST: "postgres"
@@ -128,6 +133,7 @@ spec:
                 secretKeyRef:
                   name: postgres-credentials
                   key: password
+            # Hardcoded user/pass for now. due to namespace partitioning cant read from secret...
             - name: ICE_USERNAME
               value: "user-1"
               # valueFrom:
@@ -135,7 +141,7 @@ spec:
               # name: stunner-auth-secret
               # key: username
             - name: ICE_PASSWORD
-              value: "password-1"
+              value: "pass-1"
               # valueFrom:
               # secretKeyRef:
               # name: stunner-auth-secret
