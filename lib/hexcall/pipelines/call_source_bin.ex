@@ -32,6 +32,22 @@ defmodule Hexcall.Pipelines.CallSourceBin do
   )
 
   @impl true
+  @doc """
+  Initializes the source bin with a complete audio processing pipeline.
+
+  Sets up the pipeline specification connecting:
+  - CallSourceInput to receive audio buffers from Phoenix channels
+  - Opus decoder to decode incoming Opus-encoded audio
+  - Raw audio parser to convert decoded audio to the expected format
+
+  ## Parameters
+  - `_ctx`: Bin context (unused)
+  - `opts`: Options containing hivename and position for channel topic creation
+
+  ## Returns
+  - Pipeline specification connecting all child components
+  - Empty state map
+  """
   def handle_init(_ctx, opts) do
     source_topic = "audio:#{opts.hivename}:#{opts.position}"
 

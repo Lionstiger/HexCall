@@ -15,6 +15,17 @@ defmodule Hexcall.Pipelines.CallPipeline do
   use Membrane.Pipeline
 
   @impl true
+  @doc """
+  Initializes the call pipeline with WebRTC source and sink components.
+
+  Sets up the pipeline specification connecting:
+  - WebRTC source to CallSink for audio input collection
+  - CallMixingBin to WebRTC sink for mixed audio output
+
+  ## Parameters
+  - `_ctx`: Pipeline context (unused)
+  - `opts`: Options containing ingress_signaling, egress_signaling, hivename, and start_position
+  """
   def handle_init(_ctx, opts) do
     spec = [
       #
@@ -41,6 +52,22 @@ defmodule Hexcall.Pipelines.CallPipeline do
   end
 
   @impl true
+  @doc """
+  Handles position updates by notifying child components.
+
+  When a new position is received, this function propagates the update to both
+  the call mixing bin and call sink components so they can adjust their subscriptions
+  and broadcasting targets accordingly.
+
+  ## Parameters
+  - `{:new_position, new_position}`: The new hex position to update to
+  - `_ctx`: Call context (unused)
+  - `state`: Current pipeline state
+
+  ## Returns
+  - `{:reply, :ok}`: Indicates successful handling
+  - Notifications to child components to update their positions
+  """
   def handle_call({:new_position, %HexPos{} = new_position}, _ctx, state) do
     # TODO change this later to account for meetings and set hexes.
 

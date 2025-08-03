@@ -38,6 +38,22 @@ defmodule Hexcall.Pipelines.CallMixingBin do
   )
 
   @impl true
+  @doc """
+  Initializes the mixing bin with audio mixer, Opus encoder, and parser components.
+
+  Sets up the pipeline specification connecting:
+  - LiveAudioMixer to combine multiple audio sources
+  - Opus encoder to encode mixed audio for transmission
+  - Opus parser to handle packet delimitation and timestamps
+
+  ## Parameters
+  - `_ctx`: Bin context (unused)
+  - `opts`: Options containing hivename and position
+
+  ## Returns
+  - Pipeline specification
+  - State with hivename and position
+  """
   def handle_init(_ctx, opts) do
     spec =
       [
@@ -59,6 +75,22 @@ defmodule Hexcall.Pipelines.CallMixingBin do
   end
 
   @impl true
+  @doc """
+  Handles position updates by dynamically adding/removing source bins for neighbors.
+
+  Calculates the difference between current and new neighbor positions, then:
+  - Removes source bins for positions no longer in range
+  - Adds source bins for new positions in range
+
+  ## Parameters
+  - `{:update_position, new_position}`: The new hex position to update to
+  - `_context`: Context information (unused)
+  - `state`: Current bin state containing hivename and position
+
+  ## Returns
+  - Specification updates for adding and removing child source bins
+  - Updated state with new position
+  """
   def handle_parent_notification({:update_position, new_position}, _context, state) do
     current_neighbors =
       if state.position == %HexPos{q: -1, r: -1, s: -1} do
