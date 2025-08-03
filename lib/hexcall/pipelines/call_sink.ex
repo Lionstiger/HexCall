@@ -1,4 +1,12 @@
 defmodule Hexcall.Pipelines.CallSink do
+  @moduledoc """
+  Membrane sink module for broadcasting audio to WebRTC connections.
+
+  This module receives audio buffers from the pipeline and broadcasts them
+  to a specific hive topic. It supports dynamic position updates to change
+  the broadcast destination based on notifications from parent components.
+  """
+
   use Membrane.Sink
 
   def_input_pad(:input,

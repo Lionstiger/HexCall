@@ -1,4 +1,15 @@
 defmodule Hexcall.Pipelines.CallPipeline do
+  @moduledoc """
+  Main pipeline module for HexCall audio processing.
+
+  This module orchestrates the complete audio flow for a HexCall session, handling both
+  incoming audio from WebRTC sources and outgoing mixed audio to WebRTC sinks. It connects
+  microphone input to a call sink and manages audio mixing from neighboring hex positions
+  in the hive.
+
+  The pipeline supports dynamic position updates through the `new_position` call, which
+  notifies child components to adjust their audio routing accordingly.
+  """
   alias Hexcall.Pipelines.{CallSink, CallMixingBin}
   alias Hexcall.HexPos
   use Membrane.Pipeline

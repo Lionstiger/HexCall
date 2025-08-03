@@ -1,4 +1,12 @@
 defmodule Hexcall.Pipelines.CallSourceInput do
+  @moduledoc """
+  Membrane source module for receiving audio buffers from Phoenix channels.
+
+  This module subscribes to a specific Phoenix channel topic to receive audio buffers,
+  which are then forwarded to the pipeline for processing. It handles the subscription
+  lifecycle and buffer queuing for audio data received over WebRTC connections.
+  """
+
   use Membrane.Source
 
   def_output_pad(:output,

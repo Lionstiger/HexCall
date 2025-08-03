@@ -1,4 +1,16 @@
 defmodule Hexcall.Pipelines.CallMixingBin do
+  @moduledoc """
+  Membrane bin module for mixing audio from neighboring hex positions.
+
+  This module manages audio mixing by subscribing to neighboring hex positions
+  in the hive and combining their audio streams. It uses a live audio mixer
+  to process multiple audio sources and converts the mixed output to Opus format
+  for transmission.
+
+  Supports dynamic position updates by adding/removing source bins for neighbors
+  as the position changes.
+  """
+
   alias Hexcall.Pipelines.CallSourceBin
   alias Hexcall.HexPos
   use Membrane.Bin

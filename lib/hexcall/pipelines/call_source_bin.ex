@@ -1,4 +1,12 @@
 defmodule Hexcall.Pipelines.CallSourceBin do
+  @moduledoc """
+  Membrane bin module for handling audio source processing from a specific hex position.
+
+  This module encapsulates the complete audio processing chain for a single hex position,
+  including receiving Opus-encoded audio, decoding it, and parsing it into raw audio format.
+  It acts as a wrapper around `CallSourceInput` and manages the audio decoding pipeline.
+  """
+
   alias Hexcall.Pipelines.CallSourceInput
   use Membrane.Bin
 

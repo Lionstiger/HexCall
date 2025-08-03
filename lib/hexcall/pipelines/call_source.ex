@@ -1,4 +1,12 @@
 defmodule Hexcall.Pipelines.CallSource do
+  @moduledoc """
+  Membrane source module for collecting audio input from WebRTC connections.
+
+  This module receives audio data through WebRTC and forwards it to the pipeline.
+  It subscribes to a specific hive topic and can update its listening position
+  dynamically based on notifications from parent components.
+  """
+
   alias Hexcall.HexPos
   alias Membrane.Opus
   use Membrane.Source
