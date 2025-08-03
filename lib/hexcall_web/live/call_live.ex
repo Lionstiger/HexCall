@@ -4,7 +4,7 @@ defmodule HexcallWeb.CallLive do
   require Logger
 
   alias HexcallWeb.Components.{Capture, Player, HexCell}
-  alias Hexcall.{Hives, HiveManagerPresence, HexPos}
+  alias Hexcall.{Hives, HexPos, Hive}
 
   @impl true
   def mount(%{"hive" => hivename}, _session, socket) do
@@ -21,9 +21,9 @@ defmodule HexcallWeb.CallLive do
     else
       socket =
         if connected?(socket) do
-          HiveManagerPresence.track_user(socket.root_pid, hivename, user_id)
-          HiveManagerPresence.subscribe(hivename)
-          HiveManagerPresence.list_positions(hivename)
+          Hive.PresenceManager.track_user(socket.root_pid, hivename, user_id)
+          Hive.PresenceManager.subscribe(hivename)
+          Hive.PresenceManager.list_positions(hivename)
 
           ingress_signaling = Membrane.WebRTC.Signaling.new()
           egress_signaling = Membrane.WebRTC.Signaling.new()
@@ -61,7 +61,7 @@ defmodule HexcallWeb.CallLive do
   end
 
   @impl true
-  def handle_event("webrtc_signaling", unsigned_params, socket) do 
+  def handle_event("webrtc_signaling", unsigned_params, socket) do
     # TODO investigate why this signal gets send to the main liveview.
     # Seems to firefox only.
     Logger.warning("weird webrtc signal to check later")
@@ -76,7 +76,7 @@ defmodule HexcallWeb.CallLive do
     user_id = socket.assigns.user_id
     hivename = socket.assigns.hive_name
 
-    case HiveManagerPresence.move(socket.root_pid, hivename, user_id, new_position) do
+    case Hive.PresenceManager.move(socket.root_pid, hivename, user_id, new_position) do
       {:ok, new_pos = %HexPos{}} ->
         # update pipeline here
         Membrane.Pipeline.call(socket.assigns.pipeline, {:new_position, new_pos})
@@ -89,14 +89,14 @@ defmodule HexcallWeb.CallLive do
   end
 
   @impl true
-  def handle_info({HiveManagerPresence, {:join, presence}}, socket) do
+  def handle_info({Hive.PresenceManager, {:join, presence}}, socket) do
     hex_name = to_string(HexPos.new(presence.pos))
     {:noreply, push_event(socket, "update_hex@" <> hex_name, %{user: presence.user})}
     # {:noreply, stream_insert(socket, :presences, presence)}
   end
 
   @impl true
-  def handle_info({HiveManagerPresence, {:leave, presence}}, socket) do
+  def handle_info({Hive.PresenceManager, {:leave, presence}}, socket) do
     hex_name = to_string(HexPos.new(presence.pos))
     {:noreply, push_event(socket, "clear_hex@" <> hex_name, %{})}
 

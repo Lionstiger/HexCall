@@ -1,4 +1,4 @@
-defmodule Hexcall.HiveManagerPresence do
+defmodule Hexcall.Hive.PresenceManager do
   alias Hexcall.HexPos
 
   use Phoenix.Presence,

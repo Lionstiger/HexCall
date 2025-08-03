@@ -16,7 +16,7 @@ defmodule Hexcall.Application do
         {Phoenix.PubSub, name: Hexcall.PubSub},
         # {DynamicSupervisor, name: Hexcall.HiveManagerPresence, strategy: :one_for_one},
         # {PartitionSupervisor, child_spec: DynamicSupervisor, name: Hexcall.DynamicSupervisors},
-        Hexcall.HiveManagerPresence,
+        Hexcall.Hive.PresenceManager,
         # Start the Finch HTTP client for sending emails
         {Finch, name: Hexcall.Finch},
         # Start a worker by calling: Hexcall.Worker.start_link(arg)
